@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS users(
+id SERIAL PRIMARY KEY,
+name TEXT,
+password TEXT
+);
+
+CREATE TABLE IF NOT EXISTS posts(
+id SERIAL PRIMARY KEY,
+user_id INTEGER,
+category TEXT,
+location TEXT
+);
+
+CREATE TABLE IF NOT EXISTS schedule(
+id SERIAL PRIMARY KEY,
+user_id INTEGER,
+post_id INTEGER,
+accept_time TIMESTAMP
+);
