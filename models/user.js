@@ -6,17 +6,15 @@ module.exports = (dbPoolInstance) => {
         let queryString = 'SELECT * FROM users WHERE name =' + "'" + requestBody.name + "';";
 
         dbPoolInstance.query(queryString, (error, queryResult) => {
-            console.log(queryString);
 
             callback(error, queryResult);
-            console.log('this:', queryResult)
         });
     }
 
     const create = (username, callback) => {
         let queryString = 'SELECT * FROM users WHERE name =' + "'" + username.name + "';";
         dbPoolInstance.query(queryString, (error, queryResult) => {
-            if (error) {
+            if (queryResult.rowCount == 0) {
                 var hashedValue = sha256(username.password);
 
                 const secondQueryString = 'INSERT INTO users (name, password) VALUES ($1, $2) RETURNING id';
@@ -24,16 +22,15 @@ module.exports = (dbPoolInstance) => {
                     username.name,
                     hashedValue
                 ];
-
                 dbPoolInstance.query(secondQueryString, values, (error, secondQueryResult) => {
 
-                    callback(error, secondQueryResult);
+                callback(error, secondQueryResult);
                 });
+
             }
             else{
                 callback(error, 'usertaken');
             }
-
 
         })
 

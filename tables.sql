@@ -1,6 +1,9 @@
 CREATE TABLE IF NOT EXISTS users(
 id SERIAL PRIMARY KEY,
-name TEXT,
+firstname TEXT,
+lastname TEXT,
+email TEXT,
+username TEXT,
 password TEXT
 );
 
@@ -8,7 +11,9 @@ CREATE TABLE IF NOT EXISTS posts(
 id SERIAL PRIMARY KEY,
 user_id INTEGER,
 category TEXT,
-location TEXT
+location TEXT,
+details TEXT
+
 );
 
 CREATE TABLE IF NOT EXISTS schedule(

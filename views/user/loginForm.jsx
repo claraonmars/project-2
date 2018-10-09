@@ -1,11 +1,11 @@
 var React = require("react");
+var DefaultLayout = require('../layout/default');
 
 class LoginForm extends React.Component {
   render() {
     return (
-      <html>
-        <head />
-        <body>
+        <DefaultLayout title="Login">
+
 
           <form method ='POST' action='/login/success'>
 
@@ -15,8 +15,7 @@ class LoginForm extends React.Component {
           <input type='submit' name ='Login' />
           </form>
 
-        </body>
-      </html>
+        </DefaultLayout>
     );
   }
 }

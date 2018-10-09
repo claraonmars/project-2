@@ -1,11 +1,11 @@
 var React = require("react");
+var DefaultLayout = require('../layout/default');
 
 class Home extends React.Component {
   render() {
     return (
-      <html>
-        <head />
-        <body>
+        <DefaultLayout title="Taskbuddy">
+
 
           <form action='/login' method ='GET'>
           <input type='submit' value ='Login' />
@@ -15,8 +15,7 @@ class Home extends React.Component {
           <input type='submit' value ='Register' />
           </form>
 
-        </body>
-      </html>
+        </DefaultLayout>
     );
   }
 }

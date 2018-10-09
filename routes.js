@@ -9,7 +9,7 @@ module.exports = (app, db) => {
    *  =========================================
    */
   // CRUD users
-  app.get('/', user.home);
+  app.get('/', posts.home);
 
   app.get('/login', user.loginForm);
   app.get('/register', user.registerForm);

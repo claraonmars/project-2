@@ -2,10 +2,6 @@ var sha256 = require('js-sha256');
 const SALT = "tweedr tweeds";
 
 module.exports = (db) => {
-    const home = (request, response) => {
-        response.render('user/home');
-    }
-
     const loginForm = (request, response) => {
         response.render('user/loginForm');
     }
@@ -26,8 +22,12 @@ module.exports = (db) => {
                 let createdId = queryResult.rows[0].id;
                 var hashedCookie = sha256(SALT + createdId);
 
+                console.log(queryResult.rows[0]);
+
                 response.cookie('loggedIn', hashedCookie);
-                response.cookie('username', queryResult.rows[0].id);
+                response.cookie('access', 'true');
+                response.cookie('userId', queryResult.rows[0].id);
+                response.cookie('userName', queryResult.rows[0].name);
                 response.redirect('/');
 
             } else {
@@ -44,11 +44,15 @@ module.exports = (db) => {
                 console.error('error getting user:', error);
                 response.sendStatus(500);
             }
-            //var hashedValue = sha256(request.body.password);
-            if (request.body.name !== undefined && request.body.password === queryResult.rows[0].password) {
+            var hashedValue = sha256(request.body.password);
+            if (request.body.name !== undefined && hashedValue === queryResult.rows[0].password) {
 
-                response.cookie('loggedIn', queryResult.rows[0].password);
-                response.cookie('username', queryResult.rows[0].id);
+                console.log(queryResult.rows[0]);
+
+                response.cookie('loggedIn', hashedValue);
+                response.cookie('access', 'true');
+                response.cookie('userId', queryResult.rows[0].id);
+                response.cookie('userName', queryResult.rows[0].name);
                 response.redirect('/');
             } else {
                 response.send('not logged in')
@@ -56,7 +60,6 @@ module.exports = (db) => {
         });
     }
     return {
-        home,
         loginForm,
         registerForm,
         registerCreate,
