@@ -1,22 +1,10 @@
 var React = require("react");
 var DefaultLayout = require('../layout/default');
 
-class postForm extends React.Component {
-  render() {
-       let logout
-        let logoutURL
-        let profile
-        let profileURL
-
-            let actionURL = '/post/' + this.props.type
-
-
-        if (this.props.cookies.status === 'loggedIn'){
-          logout = 'Logout'
-          logoutURL = '/logout' + '?_method=DELETE';
-          profile =' Profile'
-          profileURL = '/user'
-        }
+class EditPost extends React.Component {
+    render() {
+    let postId = this.props.postid;
+    let actionURL = '/user/'+postId+'?_method=PUT'
 
     let time =[
       {   id: 1,
@@ -57,23 +45,18 @@ class postForm extends React.Component {
 )
     })
 
-
-
-    return (
-        <DefaultLayout title="Login">
+        return (
+            <DefaultLayout title = "Taskbuddy" >
             <div class='topbar'>
-            <form method ='POST' action={logoutURL}>
-            <input type= 'submit' value={logout}/>
-            </form>
-
-            <form method='GET' action={profileURL}>
-            <input type='submit' value ={profile}/>
+            <form method ='POST' action='/logout?_method=DELETE'>
+            <input type= 'submit' value='Logout'/>
             </form>
             </div>
 
             <article>
+            <h3>Modify your search</h3>
             <form method='POST' action ={actionURL}>
-            I am looking for a {this.props.type} buddy!<br/>
+            I am looking for a {this.props.reqinfo[0].category} buddy!<br/>
 
             Location: <input type='text' name='location'/><br/>
 
@@ -90,9 +73,9 @@ class postForm extends React.Component {
             </form>
             </article>
 
-        </DefaultLayout>
-    );
-  }
+            </DefaultLayout>
+        );
+    }
 }
 
-module.exports = postForm;
+module.exports = EditPost;

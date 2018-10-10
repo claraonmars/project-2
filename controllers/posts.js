@@ -32,20 +32,46 @@ module.exports = (db) => {
 
     const postedReq =(request,response) =>{
         let type = request.params.id
-        db.posts.postedReq(type,request.body, request.cookies['userId'], (error, queryResult)=>{
+        db.posts.postedReq(type, request.body, request.cookies['userId'], (error, queryResult)=>{
             if (error) {
                 console.error('error getting user:', error);
                 response.sendStatus(500);
             }
             response.redirect('/');
-        })
+        });
+    };
 
+    const editPost = (request, response) => {
+        let postid = request.params.id;
+        console.log(postid)
+        db.posts.editPost(postid, (error, queryResult)=>{
+            if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+        console.log('here:',queryResult)
+        response.render('posts/editPost',{reqinfo: queryResult.rows, postid:postid});
+        });
+    };
+
+    const remove = (request, response) =>{
+        let postid = request.params.id;
+        db.posts.remove(postid, (error, queryResult)=>{
+            if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+            response.redirect('/user');
+
+        })
     }
 
     return {
         home,
         postReqForm,
-        postedReq
+        postedReq,
+        editPost,
+        remove
     };
 
 }

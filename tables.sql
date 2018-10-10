@@ -9,7 +9,7 @@ CONSTRAINT UC_users UNIQUE (username, email)
 );
 
 CREATE TABLE IF NOT EXISTS posts(
-id SERIAL PRIMARY KEY,
+post_id SERIAL PRIMARY KEY,
 user_id INTEGER,
 category TEXT,
 location TEXT,

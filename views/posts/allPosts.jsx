@@ -3,12 +3,17 @@ var DefaultLayout = require('../layout/default');
 
 class AllPosts extends React.Component {
     render() {
-        let button
-        let actionURL
+      let logout
+        let logoutURL
+        let profile
+        let profileURL
 
         if (this.props.cookies.status === 'loggedIn'){
-          button = 'Logout'
-          actionURL = '/logout' + '?_method=DELETE';
+          logout = 'Logout'
+          logoutURL = '/logout' + '?_method=DELETE';
+          profile =' Profile'
+          profileURL = '/user'
+
         }
 
         const posts = this.props.posts.map((post) => {
@@ -18,8 +23,12 @@ class AllPosts extends React.Component {
           <DefaultLayout title = "Taskbuddy" >
 
             <div class='topbar'>
-            <form method ='POST' action={actionURL}>
-            <input type= 'submit' value={button}/>
+            <form method ='POST' action={logoutURL}>
+            <input type= 'submit' value={logout}/>
+            </form>
+
+            <form method='GET' action={profileURL}>
+            <input type='submit' value ={profile}/>
             </form>
             </div>
             <article>
@@ -50,7 +59,9 @@ class AllPosts extends React.Component {
 
 
             </article>
-            <article> {posts} </article>
+            <article>
+            {posts}
+            </article>
 
             </DefaultLayout>
         );

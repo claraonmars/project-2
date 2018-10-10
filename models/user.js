@@ -41,9 +41,16 @@ module.exports = (dbPoolInstance) => {
 
     }
 
+    const profile = (cookies, callback)=>{
+        let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE users.id = ' + cookies.userId + 'ORDER BY selectedtime ASC';
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            callback(error, queryResult);
+        })
+    }
 
     return {
         loggedIn,
-        create
+        create,
+        profile,
     };
 }

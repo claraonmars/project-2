@@ -68,11 +68,24 @@ module.exports = (db) => {
 
     }
 
+    const profile = (request, response) =>{
+        let cookies = {
+                    status: request.cookies['status'],
+                    userId: request.cookies['userId'],
+                    userName: request.cookies['userName'],
+                    name: request.cookies['name']
+                }
+        db.user.profile(cookies, (error, queryResult)=>{
+            console.log(queryResult);
+        response.render('user/profile', {cookies:cookies, requests: queryResult.rows})
+    });
+    }
+
     return {
         loginForm,
         registerForm,
         registerCreate,
         loggedIn,
-        logout
-    };
+        logout,
+        profile    };
 }
