@@ -4,7 +4,8 @@ firstname TEXT,
 lastname TEXT,
 email TEXT,
 username TEXT,
-password TEXT
+password TEXT,
+CONSTRAINT UC_users UNIQUE (username, email)
 );
 
 CREATE TABLE IF NOT EXISTS posts(

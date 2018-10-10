@@ -22,12 +22,12 @@ module.exports = (db) => {
                 let createdId = queryResult.rows[0].id;
                 var hashedCookie = sha256(SALT + createdId);
 
-                console.log(queryResult.rows[0]);
-
-                response.cookie('loggedIn', hashedCookie);
-                response.cookie('access', 'true');
+                response.cookie('check', hashedCookie);
+                response.cookie('status', 'loggedIn');
                 response.cookie('userId', queryResult.rows[0].id);
-                response.cookie('userName', queryResult.rows[0].name);
+                response.cookie('userName', queryResult.rows[0].username);
+                response.cookie('name', queryResult.rows[0].firstname);
+
                 response.redirect('/');
 
             } else {
@@ -39,30 +39,40 @@ module.exports = (db) => {
 
     const loggedIn = (request, response) => {
         db.user.loggedIn(request.body, (error, queryResult) => {
-            console.log(queryResult);
             if (error) {
                 console.error('error getting user:', error);
                 response.sendStatus(500);
             }
-            var hashedValue = sha256(request.body.password);
-            if (request.body.name !== undefined && hashedValue === queryResult.rows[0].password) {
+            var hashedCookie = sha256(request.body.password);
+            if (request.body.username !== undefined && hashedCookie === queryResult.rows[0].password) {
 
-                console.log(queryResult.rows[0]);
-
-                response.cookie('loggedIn', hashedValue);
-                response.cookie('access', 'true');
+                response.cookie('check', hashedCookie);
+                response.cookie('status', 'loggedIn');
                 response.cookie('userId', queryResult.rows[0].id);
-                response.cookie('userName', queryResult.rows[0].name);
+                response.cookie('userName', queryResult.rows[0].username);
+                response.cookie('name', queryResult.rows[0].firstname);
                 response.redirect('/');
             } else {
                 response.send('not logged in')
             }
         });
     }
+
+    const logout = (request, response) => {
+        response.clearCookie('check');
+        response.clearCookie('status');
+        response.clearCookie('userId');
+        response.clearCookie('userName');
+        response.clearCookie('name');
+        response.redirect('/login');
+
+    }
+
     return {
         loginForm,
         registerForm,
         registerCreate,
-        loggedIn
+        loggedIn,
+        logout
     };
 }

@@ -8,11 +8,13 @@ class LoginForm extends React.Component {
 
 
           <form method ='POST' action='/login/success'>
-
-          Username:<input name='name' type='text'/><br/>
+          Username:<input name='username' type='text'/><br/>
           Password:<input name="password" type="text" />
-
           <input type='submit' name ='Login' />
+          </form>
+
+          <form method='GET' action ='/register'>
+          <input type='submit' value='register'/>
           </form>
 
         </DefaultLayout>

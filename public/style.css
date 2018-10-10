@@ -5,86 +5,18 @@ body{
 	font-size:18px;
 }
 
-header{
-	width:50vw;
-	height:5vh;
-	margin:20px auto;
-	color:teal;
-	text-align:center;
-	position: relative;
+.topbar{
+	position:fixed;
 	top:0;
-}
-
-h2{
-	font-weight: 300;
-	font-size:25px;
-	line-height:40px;
-}
-
-h6{
-	text-align: center;
-}
-
-nav{
-	width:25vw;
-	margin:2% auto;
-	text-align: center;
-}
-
-
-a{
-	color:teal;
-	text-decoration: none;
-}
-
-
-input {
-display:block;
-margin:10px auto;
-font-size:14px;
-width:20vw;
-}
-
-.submit, .strike, .edit{
-width:auto;
-box-shadow: none;
-border-radius: 0;
-font-size: 50px;
-}
-
-.container{
-font-size:20px;
-width:30vw;
-margin:0 auto;
-position: relative;
-top:5vh;
-}
-
-.dateadded{
-	font-size:14px;
-}
-
-.tasklist{
-	display:inline-block;
-	margin:0;
-	line-height:30px;
-	float:left;
-}
-
-.buttonoptions{
-	display:inline-block;
+	right:0;
+	height:5vh;
 	float:right;
-	margin:0;
+	width:100vw;
 }
 
-form{
-	display: block;
+article{
 	position: relative;
-	margin:0 auto;
-}
-
-.wrapper{
-	width:30vw;
-	display:inline-block;
-	height:100px;
+	height:100vh;
+	width:100vw;
+	background-color: #0000;
 }
