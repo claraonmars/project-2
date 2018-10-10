@@ -13,7 +13,9 @@ id SERIAL PRIMARY KEY,
 user_id INTEGER,
 category TEXT,
 location TEXT,
-details TEXT
+selectedTime TEXT,
+details TEXT,
+postedAt TIMESTAMPTZ
 
 );
 

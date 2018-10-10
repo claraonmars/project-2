@@ -5,7 +5,23 @@ module.exports = (dbPoolInstance) => {
             callback(error, queryResult);
         })
     }
+
+    const postedReq = (type, requestbody, user_id, callback)=>{
+        let queryString = 'INSERT INTO posts (user_id, category, location, selectedTime, details, postedAt) VALUES ($1,$2,$3,$4,$5, CURRENT_TIMESTAMP) RETURNING *';
+        let values = [
+        user_id,
+        type,
+        requestbody.location,
+        requestbody.time,
+        requestbody.details
+        ]
+        dbPoolInstance.query(queryString, values, (error, queryResult)=>{
+            callback(error, queryResult);
+        })
+
+    }
     return{
-        allPosts
+        allPosts,
+        postedReq
     };
 }

@@ -36,7 +36,7 @@ class AllPosts extends React.Component {
             <input type='submit' value ='Coffee Buddy' />
             </form>
 
-            <form action='/post/pokemon' method ='GET'>
+            <form action='/post/pokemon-go' method ='GET'>
             <input type='submit' value ='Pokemon Go Buddy' />
             </form>
 

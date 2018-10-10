@@ -20,5 +20,6 @@ module.exports = (app, db) => {
   app.post('/register/success', user.registerCreate);
 
   app.get('/post/:id', posts.postReqForm)
+  app.post('/post/:id/success', posts.postedReq)
 
 };

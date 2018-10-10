@@ -30,10 +30,22 @@ module.exports = (db) => {
         response.render('posts/postForm', {type:type,cookies:cookies});
     }
 
+    const postedReq =(request,response) =>{
+        let type = request.params.id
+        db.posts.postedReq(type,request.body, request.cookies['userId'], (error, queryResult)=>{
+            if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+            response.redirect('/');
+        })
+
+    }
 
     return {
         home,
         postReqForm,
+        postedReq
     };
 
 }
