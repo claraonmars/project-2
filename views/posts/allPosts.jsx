@@ -21,13 +21,15 @@ class AllPosts extends React.Component {
             posts= ''
         }else{
          posts = this.props.posts.map((post) => {
-            let actionURL = '/user/react/' + post.post_id
+            let actionURL = '/user/accept/' + post.post_id;
+            console.log(post.post_id);
             return (
                 <div class='request-item'>
                 {post.category} at {post.location}
+
                 <form method = 'POST' action ={actionURL}>
-                    <input type='hidden' name='post_id' value ={post.post_id}/>
-                    <input type='submit' value='Become task buddy'/>
+                    <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
+                    <input type='submit' id= 'selected' value='Become task buddy'/>
                 </form>
                 </div>
                 );
@@ -43,6 +45,10 @@ class AllPosts extends React.Component {
 
             <form method='GET' action={profileURL}>
             <input type='submit' value ={profile}/>
+            </form>
+
+            <form method ='GET' action ='/'>
+            <input type='submit' value ='Home'/>
             </form>
             </div>
             <article>
@@ -77,6 +83,7 @@ class AllPosts extends React.Component {
             {posts}
             </article>
 
+            <script src='script.js'></script>
             </DefaultLayout>
         );
     }

@@ -43,6 +43,10 @@ class Profile extends React.Component {
             <form method='GET' action={profileURL}>
             <input type='submit' value ={profile}/>
             </form>
+
+            <form method ='GET' action ='/'>
+            <input type='submit' value ='Home'/>
+            </form>
             </div>
             <article>
 

@@ -8,10 +8,12 @@ body{
 .topbar{
 	position:fixed;
 	top:0;
-	right:0;
 	height:5vh;
-	float:right;
 	width:100vw;
+}
+
+.topbar form{
+	float:right;
 }
 
 article{

@@ -75,7 +75,7 @@ class postForm extends React.Component {
             <form method='POST' action ={actionURL}>
             I am looking for a {this.props.type} buddy!<br/>
 
-            Location: <input type='text' name='location'/><br/>
+            Location: <input type='text' id='location' name='location'/><br/>
 
             Time:
             <select name="time">
@@ -89,7 +89,7 @@ class postForm extends React.Component {
             <input type='submit' name='submit'/>
             </form>
             </article>
-
+            <script src='script.js'></script>
         </DefaultLayout>
     );
   }

@@ -51,6 +51,10 @@ class EditPost extends React.Component {
             <form method ='POST' action='/logout?_method=DELETE'>
             <input type= 'submit' value='Logout'/>
             </form>
+
+            <form method ='GET' action ='/'>
+            <input type='submit' value ='Home'/>
+            </form>
             </div>
 
             <article>

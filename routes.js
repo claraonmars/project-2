@@ -12,7 +12,7 @@ module.exports = (app, db) => {
   app.get('/', posts.home);
 
   app.get('/user', user.profile);
-  app.post('/user/react/:id', user.reactTo);
+  //app.post('/user/react/:id', user.reactTo);
 
   app.get('/login', user.loginForm);
   app.get('/register', user.registerForm);
@@ -29,5 +29,6 @@ module.exports = (app, db) => {
   app.get('/post/:id/edit', posts.editPost);
   app.delete('/post/:id', posts.remove);
 
-
+  app.post('/user/accept/:id', user.addReaction);
+  app.get('/user/checkreaction', user.checkReaction);
 };
