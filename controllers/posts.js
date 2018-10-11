@@ -1,9 +1,9 @@
 module.exports = (db) => {
 
     const home = (request, response) => {
-        db.posts.allPosts((error, queryResult) => {
+        let userid =request.cookies['userId']
+        db.posts.allPosts(userid, (error, queryResult) => {
             if (request.cookies['status'] === 'loggedIn') {
-                console.log(queryResult);
 
                 let cookies = {
                     status: request.cookies['status'],
@@ -12,7 +12,7 @@ module.exports = (db) => {
                     name: request.cookies['name']
                 }
 
-                response.render('posts/allPosts', { posts: queryResult.rows, cookies: cookies })
+                response.render('posts/allPosts', { posts: queryResult.rows, cookies: cookies})
             } else {
                 response.redirect('/login');
             }
@@ -43,16 +43,26 @@ module.exports = (db) => {
 
     const editPost = (request, response) => {
         let postid = request.params.id;
-        console.log(postid)
         db.posts.editPost(postid, (error, queryResult)=>{
             if (error) {
                 console.error('error getting user:', error);
                 response.sendStatus(500);
             }
-        console.log('here:',queryResult)
         response.render('posts/editPost',{reqinfo: queryResult.rows, postid:postid});
         });
     };
+
+    const updatePost = (request, response) =>{
+        let requestbody = request.body;
+        let postid = request.params.id;
+        db.posts.updatePost(requestbody, postid, (error, queryResult)=>{
+            if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+            response.redirect('/user');
+        })
+    }
 
     const remove = (request, response) =>{
         let postid = request.params.id;
@@ -71,6 +81,7 @@ module.exports = (db) => {
         postReqForm,
         postedReq,
         editPost,
+        updatePost,
         remove
     };
 

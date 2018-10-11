@@ -12,6 +12,7 @@ module.exports = (app, db) => {
   app.get('/', posts.home);
 
   app.get('/user', user.profile);
+  app.post('/user/react/:id', user.reactTo);
 
   app.get('/login', user.loginForm);
   app.get('/register', user.registerForm);
@@ -20,6 +21,7 @@ module.exports = (app, db) => {
 
   app.post('/login/success', user.loggedIn);
   app.post('/register/success', user.registerCreate);
+  app.put('/post/:id', posts.updatePost);
 
   app.get('/post/:id', posts.postReqForm);
   app.post('/post/:id', posts.postedReq);

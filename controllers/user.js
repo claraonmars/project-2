@@ -76,9 +76,23 @@ module.exports = (db) => {
                     name: request.cookies['name']
                 }
         db.user.profile(cookies, (error, queryResult)=>{
-            console.log(queryResult);
         response.render('user/profile', {cookies:cookies, requests: queryResult.rows})
     });
+    }
+
+    const reactTo = (request,response) =>{
+        let cookies = {
+                    status: request.cookies['status'],
+                    userId: request.cookies['userId'],
+                    userName: request.cookies['userName'],
+                    name: request.cookies['name']
+                }
+
+                console.log(request.body)
+         db.user.reactTo(cookies, request.body, (error, queryResult)=>{
+
+         })
+        response.send('aok');
     }
 
     return {
@@ -87,5 +101,6 @@ module.exports = (db) => {
         registerCreate,
         loggedIn,
         logout,
-        profile    };
+        profile ,
+        reactTo   };
 }

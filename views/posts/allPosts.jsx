@@ -7,6 +7,7 @@ class AllPosts extends React.Component {
         let logoutURL
         let profile
         let profileURL
+        let posts
 
         if (this.props.cookies.status === 'loggedIn'){
           logout = 'Logout'
@@ -16,9 +17,22 @@ class AllPosts extends React.Component {
 
         }
 
-        const posts = this.props.posts.map((post) => {
-            return ( <li> {post.category} at {post.location}  </li> );
+        if (this.props.posts === undefined){
+            posts= ''
+        }else{
+         posts = this.props.posts.map((post) => {
+            let actionURL = '/user/react/' + post.post_id
+            return (
+                <div class='request-item'>
+                {post.category} at {post.location}
+                <form method = 'POST' action ={actionURL}>
+                    <input type='hidden' name='post_id' value ={post.post_id}/>
+                    <input type='submit' value='Become task buddy'/>
+                </form>
+                </div>
+                );
         });
+    }
         return (
           <DefaultLayout title = "Taskbuddy" >
 

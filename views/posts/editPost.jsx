@@ -4,7 +4,7 @@ var DefaultLayout = require('../layout/default');
 class EditPost extends React.Component {
     render() {
     let postId = this.props.postid;
-    let actionURL = '/user/'+postId+'?_method=PUT'
+    let actionURL = '/post/'+postId+'?_method=PUT'
 
     let time =[
       {   id: 1,

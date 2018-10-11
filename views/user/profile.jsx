@@ -15,7 +15,6 @@ class Profile extends React.Component {
           profileURL = '/user'
         }
 
-        console.log('now look at this:',this.props.requests);
         const requests = this.props.requests.map((requests) => {
             let url = '/post/' + requests.post_id + '/edit'
             let deleteURL = '/post/' + requests.post_id + '?_method=DELETE'

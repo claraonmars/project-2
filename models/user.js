@@ -14,7 +14,6 @@ module.exports = (dbPoolInstance) => {
     const create = (username, callback) => {
         let queryString = 'SELECT * FROM users WHERE username =' + "'" + username.username + "' OR email ='" + username.email + "'";
         dbPoolInstance.query(queryString, (error, queryResult) => {
-            console.log('quersting:', queryResult);
             if (queryResult.rowCount === 0) {
                 var hashedValue = sha256(username.password);
 
@@ -35,8 +34,6 @@ module.exports = (dbPoolInstance) => {
             else{
                 callback(error, 'usertaken');
             }
-
-
         })
 
     }
@@ -48,9 +45,19 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    const reactTo = (cookies, requestBody, callback) => {
+        let queryString = 'INSERT INTO schedule (user_id, post_id, accept_time) VALUES ($1,$2,CURRENT_TIMESTAMP)';
+        let values = [
+        cookies.userId, requestBody.post_id]
+        dbPoolInstance.query(queryString, values,(error, queryResult) =>{
+            callback(error, queryResult);
+        })
+    }
+
     return {
         loggedIn,
         create,
         profile,
+        reactTo
     };
 }
