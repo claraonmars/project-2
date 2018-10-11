@@ -1,11 +1,14 @@
 window.onload = function() {
-    document.querySelector('#selected')
-        .addEventListener('click', addReaction);
+    if (document.querySelector('#selected') === true){
+    document.querySelector('#selected').addEventListener('click', addReaction);}
 
-    document.querySelector('#location')
-        .addEventListener('change', searchforlocation);
+    console.log('working');
 
+    //check which requests user has reacted to
     checkReactions();
+
+    //check if others have reacted to my requests
+    checkNotifications();
 
 };
 
@@ -90,3 +93,37 @@ function checkReactions() {
     // send the request
     request.send();
 };
+
+function checkNotifications(){
+    var ajaxUrl = 'http://127.0.0.1:3000/user/checknotification';
+
+    var responseHandler = function() {
+        console.log("response text", this.responseText);
+        console.log("status text", this.statusText);
+        console.log("status code", this.status);
+
+        var responseObj = JSON.parse(this.responseText);
+
+        // if other user has reacted to my request
+        if (responseObj.rowCount >= 1) {
+
+            var div = document.createElement('div');
+            div.className = 'notification';
+            div.innerText = 'someone wants to be your task buddy! \n View \n Chat';
+            document.querySelector('article').appendChild( div );
+        }
+
+    };
+    // make a new request
+    var request = new XMLHttpRequest();
+
+    // listen for the request response
+    request.addEventListener("load", responseHandler);
+
+    // ready the system by calling open, and specifying the url
+    request.open("GET", ajaxUrl);
+
+    // send the request
+    request.send();
+}
+

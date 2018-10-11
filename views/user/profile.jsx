@@ -56,7 +56,6 @@ class Profile extends React.Component {
 
 
             </article>
-
             </DefaultLayout>
         );
     }

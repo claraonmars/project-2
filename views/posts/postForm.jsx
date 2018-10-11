@@ -89,7 +89,6 @@ class postForm extends React.Component {
             <input type='submit' name='submit'/>
             </form>
             </article>
-            <script src='script.js'></script>
         </DefaultLayout>
     );
   }

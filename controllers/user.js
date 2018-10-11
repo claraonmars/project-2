@@ -80,21 +80,6 @@ module.exports = (db) => {
     });
     }
 
-    // const reactTo = (request,response) =>{
-    //     let cookies = {
-    //                 status: request.cookies['status'],
-    //                 userId: request.cookies['userId'],
-    //                 userName: request.cookies['userName'],
-    //                 name: request.cookies['name']
-    //             }
-
-    //             console.log(request.body)
-    //      db.user.reactTo(cookies, request.body, (error, queryResult)=>{
-
-    //      })
-    //     response.send('aok');
-    // }
-
     const addReaction = (request, response) => {
         console.log('this:',request.params.id)
         let cookies = {
@@ -124,6 +109,16 @@ module.exports = (db) => {
         })
     }
 
+    const checkNotification = (request, response) =>{
+        db.user.checkNotification(request.cookies['userId'],(error,queryResult)=>{
+            if (error) {
+                console.error('error checking this user:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+        })
+    }
+
     return {
         loginForm,
         registerForm,
@@ -132,7 +127,7 @@ module.exports = (db) => {
         logout,
         profile,
         addReaction,
-        checkReaction
-        //reactTo
+        checkReaction,
+        checkNotification
     };
 }

@@ -83,7 +83,6 @@ class AllPosts extends React.Component {
             {posts}
             </article>
 
-            <script src='script.js'></script>
             </DefaultLayout>
         );
     }

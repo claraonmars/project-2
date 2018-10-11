@@ -12,12 +12,12 @@ class DefaultLayout extends React.Component {
 
                 <body>
                 <div class="container">
-                                <h2>Taskbuddy</h2>
+                <h2>Taskbuddy</h2>
 
                     {this.props.children}
                 </div>
 
-                <script src='script.js'></script>
+                <script src='/script.js'></script>
                 </body>
             </html>
     );

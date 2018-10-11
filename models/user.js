@@ -45,22 +45,7 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
-    // const reactTo = (cookies, requestBody, callback) => {
-    //     let queryString = 'INSERT INTO schedule (user_id, post_id, accept_time) VALUES ($1,$2,CURRENT_TIMESTAMP)';
-    //     let values = [
-    //     cookies.userId, requestBody.post_id]
-    //     dbPoolInstance.query(queryString, values,(error, queryResult) =>{
-    //         callback(error, queryResult);
-    //     })
-    // }
-
     const addReaction = (cookies, requestBody, callback) =>{
-        // let queryString = 'SELECT * FROM schedule WHERE user_id = ' + cookies.userId;
-        // dbPoolInstance.query(queryString, (error, queryResult)=>{
-        //     callback(error, queryResult)
-        // })
-
-
         let queryString = 'INSERT INTO schedule (user_id, post_id, accept_time) VALUES ($1,$2,CURRENT_TIMESTAMP)';
         let values = [
         cookies.userId, requestBody]
@@ -76,12 +61,20 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    const checkNotification = (userid, callback)=>{
+        let queryString = 'SELECT * FROM posts INNER JOIN schedule ON (posts.post_id = schedule.post_id) WHERE posts.user_id=' + userid;
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            callback(error, queryResult);
+        })
+    }
+
     return {
         loggedIn,
         create,
         profile,
         //reactTo,
         addReaction,
-        checkReaction
+        checkReaction,
+        checkNotification
     };
 }

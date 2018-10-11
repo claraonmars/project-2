@@ -2,10 +2,10 @@ module.exports = (dbPoolInstance) => {
     const allPosts = (userid, callback) => {
         let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE NOT users.id =' + userid;
             dbPoolInstance.query(queryString, (error, queryResult) => {
-                if (queryResult.rowCount === 0) {
-                    callback(error, 'usertaken');
+                if (queryResult.rowCount >= 1) {
+                    callback(error, queryResult);
                 }else{
-                callback(error, queryResult);
+                callback(error, 'usertaken');
             }
             });
 

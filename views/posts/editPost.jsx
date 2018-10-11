@@ -42,7 +42,7 @@ class EditPost extends React.Component {
 
     const timelist = time.map ((time)=>{
         return (<option> {time.time}</option>
-)
+    )
     })
 
         return (
@@ -55,10 +55,11 @@ class EditPost extends React.Component {
             <form method ='GET' action ='/'>
             <input type='submit' value ='Home'/>
             </form>
+
             </div>
 
             <article>
-            <h3>Modify your search</h3>
+            <h3>Modify</h3>
             <form method='POST' action ={actionURL}>
             I am looking for a {this.props.reqinfo[0].category} buddy!<br/>
 
@@ -68,7 +69,7 @@ class EditPost extends React.Component {
             <select name="time">
             <option></option>
             {timelist}
-            </select><br />
+            </select><br/>
 
             Details:
             <input type='text' maxlength="150" name="details"/>

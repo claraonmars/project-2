@@ -29,6 +29,8 @@ module.exports = (app, db) => {
   app.get('/post/:id/edit', posts.editPost);
   app.delete('/post/:id', posts.remove);
 
+  //ajax calls
   app.post('/user/accept/:id', user.addReaction);
   app.get('/user/checkreaction', user.checkReaction);
+  app.get('/user/checknotification', user.checkNotification);
 };
