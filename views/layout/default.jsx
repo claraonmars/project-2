@@ -13,7 +13,7 @@ class DefaultLayout extends React.Component {
                 <body>
                 <div class="container">
                 <h2>Taskbuddy</h2>
-
+                <div class='notification'></div>
                     {this.props.children}
                 </div>
 

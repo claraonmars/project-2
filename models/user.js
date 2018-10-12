@@ -68,13 +68,38 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    const viewNotification = (userid, callback) =>{
+        let queryString =
+        `UPDATE schedule
+        SET readby = true
+        FROM posts
+        WHERE (posts.post_id = schedule.post_id) AND (posts.user_id = ${userid});`
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            let secondQueryString=
+            'SELECT * FROM posts INNER JOIN schedule ON (posts.post_id = schedule.post_id) INNER JOIN users ON (schedule.user_id = users.id) WHERE posts.user_id =' + userid;
+            dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
+
+            callback(error, secondQueryResult);
+            })
+        })
+    }
+
+    const removeReaction = (postid, userid, callback)=>{
+        //let queryString = 'DELETE accept_time FROM schedule INNER JOIN posts ON (posts.post_id = schedule.post_id) WHERE schedule.user_id=' + userid + 'AND schedule.post_id =' + postid;
+        let queryString = 'DELETE FROM schedule WHERE post_id=' + postid + 'AND user_id=' + userid;
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            callback(error, queryResult);
+        })
+    }
+
     return {
         loggedIn,
         create,
         profile,
-        //reactTo,
         addReaction,
         checkReaction,
-        checkNotification
+        checkNotification,
+        viewNotification,
+        removeReaction
     };
 }

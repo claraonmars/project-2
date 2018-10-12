@@ -119,6 +119,43 @@ module.exports = (db) => {
         })
     }
 
+    const viewNotification = (request, response) =>{
+        let userid= request.cookies['userId'];
+        let cookies = {
+                    status: request.cookies['status'],
+                    userId: request.cookies['userId'],
+                    userName: request.cookies['userName'],
+                    name: request.cookies['name']
+                }
+        db.user.viewNotification(userid, (error, queryResult)=>{
+           if (error) {
+                console.error('error getting notification:', error);
+                response.sendStatus(500);
+            }
+
+            //response.send(queryResult);
+            response.render('user/notifications', {cookies: cookies, notify: queryResult.rows});
+        })
+    }
+
+    const removeReaction = (request, response) =>{
+        db.user.removeReaction(request.params.id, request.cookies['userId'],(error,queryResult)=>{
+            if (error) {
+                console.error('error removing this user reaction:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+        })
+    }
+
+    const openChat = (request, response)=>{
+        response.send('ok');
+    }
+
+    const startChat= (request, response) =>{
+        response.send('ok');
+    }
+
     return {
         loginForm,
         registerForm,
@@ -128,6 +165,10 @@ module.exports = (db) => {
         profile,
         addReaction,
         checkReaction,
-        checkNotification
+        checkNotification,
+        viewNotification,
+        removeReaction,
+        openChat,
+        startChat
     };
 }

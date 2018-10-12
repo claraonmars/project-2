@@ -21,16 +21,20 @@ module.exports = (app, db) => {
 
   app.post('/login/success', user.loggedIn);
   app.post('/register/success', user.registerCreate);
-  app.put('/post/:id', posts.updatePost);
 
+  app.put('/post/:id', posts.updatePost);
   app.get('/post/:id', posts.postReqForm);
   app.post('/post/:id', posts.postedReq);
 
   app.get('/post/:id/edit', posts.editPost);
   app.delete('/post/:id', posts.remove);
+  app.get('/user/notification', user.viewNotification);
 
   //ajax calls
+  app.delete('/user/remove/:id', user.removeReaction)
   app.post('/user/accept/:id', user.addReaction);
   app.get('/user/checkreaction', user.checkReaction);
   app.get('/user/checknotification', user.checkNotification);
+  app.get('/user/chat', user.openChat);
+  //app.put('/user/chat', user.startChat);
 };

@@ -23,5 +23,6 @@ CREATE TABLE IF NOT EXISTS schedule(
 id SERIAL PRIMARY KEY,
 user_id INTEGER,
 post_id INTEGER,
-accept_time TIMESTAMP
+accept_time TIMESTAMP,
+readby BOOLEAN DEFAULT FALSE
 );

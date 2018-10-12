@@ -27,7 +27,7 @@ class AllPosts extends React.Component {
                 <div class='request-item'>
                 {post.category} at {post.location}
 
-                <form method = 'POST' action ={actionURL}>
+                <form method = 'POST' name='select_task' action ={actionURL}>
                     <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
                     <input type='submit' id= 'selected' value='Become task buddy'/>
                 </form>

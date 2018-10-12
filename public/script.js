@@ -1,8 +1,9 @@
 window.onload = function() {
-    if (document.querySelector('#selected') === true){
-    document.querySelector('#selected').addEventListener('click', addReaction);}
 
-    console.log('working');
+    //if div exists on page, execute event listener
+    if (document.querySelector('#selected')) {
+        document.querySelector('#selected').addEventListener('click', addReaction);
+    }
 
     //check which requests user has reacted to
     checkReactions();
@@ -10,8 +11,33 @@ window.onload = function() {
     //check if others have reacted to my requests
     checkNotifications();
 
+    //getLocation();
+
 };
 
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+// var x = document.querySelector("body");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        //x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+}
+
+
+//SELECT * FROM Places WHERE (Lat - :Lat)^2 + (Long - :Long)^2 <= :Distance^2
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 function addReaction() {
     event.preventDefault();
@@ -27,7 +53,15 @@ function addReaction() {
         console.log("status code", this.status);
 
         // react to a request (accepting a task)
-        document.getElementById("selected").value = "My value";
+        if (document.getElementById("selected").value === "selected") {
+            document.getElementById("selected").value = "deselect";
+            removeReaction();
+
+            //document.select_task.action = '/user';
+
+        } else {
+            document.getElementById("selected").value = "selected";
+        }
 
     };
 
@@ -44,6 +78,33 @@ function addReaction() {
     request.send();
 
 };
+
+function removeReaction(){
+    event.preventDefault();
+
+    let postid = document.getElementById("postid").value;
+
+    var ajaxUrl = "http://127.0.0.1:3000/user/remove/" + postid  + '?_method=DELETE';
+
+    // what to do when we recieve the request
+    var responseHandler = function() {
+        console.log("response text", this.responseText);
+        console.log("status text", this.statusText);
+        console.log("status code", this.status);
+    };
+
+    // make a new request
+    var request = new XMLHttpRequest();
+
+    // listen for the request response
+    request.addEventListener("load", responseHandler);
+
+    // ready the system by calling open, and specifying the url
+    request.open("POST", ajaxUrl);
+
+    // send the request
+    request.send();
+}
 
 //function to find cookie according to cookie name
 function readCookie(name) {
@@ -69,13 +130,13 @@ function checkReactions() {
 
         var responseObj = JSON.parse(this.responseText);
 
-        // if item has been selected
+        // if item has been selected by currentuser
         if (responseObj.rowCount >= 1) {
             let here = readCookie('userId');
             console.log(responseObj.rows[0].user_id);
             for (var i = 0; i < responseObj.rows.length; i++) {
                 if (responseObj.rows[i].user_id === parseInt(here)) {
-                    document.getElementById("selected").value = "already selected";
+                    document.getElementById("selected").value = "selected";
                 }
             }
         }
@@ -94,7 +155,7 @@ function checkReactions() {
     request.send();
 };
 
-function checkNotifications(){
+function checkNotifications() {
     var ajaxUrl = 'http://127.0.0.1:3000/user/checknotification';
 
     var responseHandler = function() {
@@ -105,14 +166,15 @@ function checkNotifications(){
         var responseObj = JSON.parse(this.responseText);
 
         // if other user has reacted to my request
-        if (responseObj.rowCount >= 1) {
+        for (var i =0; i < responseObj.rows.length; i++){
+        if (responseObj.rowCount >= 1 && responseObj.rows[i].readby === false) {
 
-            var div = document.createElement('div');
-            div.className = 'notification';
-            div.innerText = 'someone wants to be your task buddy! \n View \n Chat';
-            document.querySelector('article').appendChild( div );
+            var link = document.createElement('a');
+            link.href = '/user/notification';
+            link.innerText = responseObj.rowCount;
+            document.querySelector('.notification').appendChild( link );
         }
-
+    }
     };
     // make a new request
     var request = new XMLHttpRequest();
@@ -126,4 +188,3 @@ function checkNotifications(){
     // send the request
     request.send();
 }
-
