@@ -1,8 +1,21 @@
 window.onload = function() {
+    let currentuser = readCookie('userId');
 
     //if div exists on page, execute event listener
     if (document.querySelector('#selected')) {
         document.querySelector('#selected').addEventListener('click', addReaction);
+    }
+
+    if (document.querySelector(`#user_${currentuser}`)) {
+        document.querySelector(`#user_${currentuser}`).
+        addEventListener('click', openChatWindow);
+    }
+
+    //openChat();
+
+    if (document.querySelector('#submitchatform')) {
+        document.querySelector('#submitchatform').
+        addEventListener('click', startChat);
     }
 
     //check which requests user has reacted to
@@ -48,9 +61,9 @@ function addReaction() {
 
     // what to do when we recieve the request
     var responseHandler = function() {
-        console.log("response text", this.responseText);
-        console.log("status text", this.statusText);
-        console.log("status code", this.status);
+        //console.log("response text", this.responseText);
+        //console.log("status text", this.statusText);
+        //console.log("status code", this.status);
 
         // react to a request (accepting a task)
         if (document.getElementById("selected").value === "selected") {
@@ -86,25 +99,21 @@ function removeReaction(){
 
     var ajaxUrl = "http://127.0.0.1:3000/user/remove/" + postid  + '?_method=DELETE';
 
-    // what to do when we recieve the request
     var responseHandler = function() {
-        console.log("response text", this.responseText);
-        console.log("status text", this.statusText);
-        console.log("status code", this.status);
+        //console.log("response text", this.responseText);
+        //console.log("status text", this.statusText);
+        //console.log("status code", this.status);
     };
 
-    // make a new request
     var request = new XMLHttpRequest();
 
-    // listen for the request response
     request.addEventListener("load", responseHandler);
 
-    // ready the system by calling open, and specifying the url
     request.open("POST", ajaxUrl);
 
-    // send the request
     request.send();
 }
+
 
 //function to find cookie according to cookie name
 function readCookie(name) {
@@ -124,9 +133,9 @@ function checkReactions() {
 
     // what to do when we recieve the request
     var responseHandler = function() {
-        console.log("response text", this.responseText);
-        console.log("status text", this.statusText);
-        console.log("status code", this.status);
+        //console.log("response text", this.responseText);
+        //console.log("status text", this.statusText);
+        //console.log("status code", this.status);
 
         var responseObj = JSON.parse(this.responseText);
 
@@ -141,17 +150,12 @@ function checkReactions() {
             }
         }
     };
-
-    // make a new request
     var request = new XMLHttpRequest();
 
-    // listen for the request response
     request.addEventListener("load", responseHandler);
 
-    // ready the system by calling open, and specifying the url
     request.open("GET", ajaxUrl);
 
-    // send the request
     request.send();
 };
 
@@ -159,9 +163,9 @@ function checkNotifications() {
     var ajaxUrl = 'http://127.0.0.1:3000/user/checknotification';
 
     var responseHandler = function() {
-        console.log("response text", this.responseText);
-        console.log("status text", this.statusText);
-        console.log("status code", this.status);
+        //console.log("response text", this.responseText);
+        //console.log("status text", this.statusText);
+        //console.log("status code", this.status);
 
         var responseObj = JSON.parse(this.responseText);
 
@@ -176,15 +180,95 @@ function checkNotifications() {
         }
     }
     };
-    // make a new request
     var request = new XMLHttpRequest();
 
-    // listen for the request response
     request.addEventListener("load", responseHandler);
 
-    // ready the system by calling open, and specifying the url
     request.open("GET", ajaxUrl);
 
-    // send the request
     request.send();
 }
+
+function openChatWindow(){
+    document.querySelector('.chatbox').setAttribute("style", "display: block;");
+
+    openChat();
+}
+
+function openChat() {
+    event.preventDefault();
+
+    let currentuser = 'user_'+readCookie('userId');
+
+    let otheruser = document.getElementById(currentuser).value;
+
+    var ajaxUrl = 'http://127.0.0.1:3000/user/chat/' + otheruser;
+
+    var responseHandler = function() {
+        //console.log("response text", this.responseText);
+        //console.log("status text", this.statusText);
+        //console.log("status code", this.status);
+
+        var responseObj = JSON.parse(this.responseText);
+
+        //append any existing chat
+
+        for (var i =0; i<responseObj.rows.length; i++){
+        var messagebox = document.createElement('p');
+        messagebox.innerText = responseObj.rows[i].chat;
+        document.querySelector('.chatbody').appendChild(messagebox);
+        }
+
+         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+
+    };
+    var request = new XMLHttpRequest();
+
+    request.addEventListener("load", responseHandler);
+
+    request.open("GET", ajaxUrl);
+
+    request.send();
+}
+
+function startChat() {
+    event.preventDefault();
+
+    var form =document.getElementById("chatform").value;
+    //console.log(form);
+
+    var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform="+form;
+
+    var responseHandler = function() {
+        console.log("response text", this.responseText);
+        console.log("status text", this.statusText);
+        console.log("status code", this.status);
+
+        var responseObj = JSON.parse(this.responseText);
+        console.log(responseObj);
+
+    var rowsNum = parseInt(responseObj.rows.length-1);
+
+    var messagebox = document.createElement('p');
+        messagebox.innerText = responseObj.rows[rowsNum].chat;
+        document.querySelector('.chatbody').appendChild(messagebox);
+      document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+
+
+    };
+
+    var request = new XMLHttpRequest();
+
+    request.addEventListener("load", responseHandler);
+
+    request.open("GET", ajaxUrl);
+
+    request.send();
+
+
+}
+
+
+
+
+

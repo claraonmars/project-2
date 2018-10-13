@@ -41,10 +41,41 @@ article{
 }
 
 .chatbox{
-	background-color: blue;
-	height:20vh;
-	width:10vw;
+	border: 1px solid black;
+	height:250px;
+	width:200px;
+	display:none;
+	position:fixed;
+	bottom:0;
+	right:0;
 }
+
+.chatheader{
+	background-color: blue;
+	height:20px;
+	width:200px;
+	text-align: right;
+	color: white;
+}
+
+.chatbody{
+	width:185px;
+	height:150px;
+	overflow-x: scroll;
+	object-fit: contain;
+	margin: 0 auto;
+}
+
+.text_input{
+	position:relative;
+	width:185px;
+	margin: 10px auto;
+}
+
+/*.text_input input{
+	width:180px;
+	height:35px;
+}*/
 
 
 a{

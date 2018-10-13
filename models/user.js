@@ -92,6 +92,27 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    const openChat = (currentUser, otherUser, callback) =>{
+        let queryString = `CREATE TABLE IF NOT EXISTS user${currentUser}_user${otherUser} ( id SERIAL PRIMARY KEY, poster INTEGER, chat TEXT);`
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            let secondQueryString ='SELECT * FROM user1_useruser_2';
+            dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
+            callback(error, secondQueryResult);
+            })
+        })
+    }
+
+    const startChat = (currentUser, requestBody, callback) =>{
+        let queryString = 'INSERT INTO user1_useruser_2 (poster, chat) VALUES ($1, $2)';
+        let values =[currentUser, requestBody.chatform];
+        dbPoolInstance.query(queryString, values,(error, queryResult) =>{
+        let secondQueryString ='SELECT * FROM user1_useruser_2';
+            dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
+            callback(error, secondQueryResult);
+            })
+        })
+    }
+
     return {
         loggedIn,
         create,
@@ -100,6 +121,8 @@ module.exports = (dbPoolInstance) => {
         checkReaction,
         checkNotification,
         viewNotification,
-        removeReaction
+        removeReaction,
+        openChat,
+        startChat
     };
 }

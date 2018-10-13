@@ -17,20 +17,35 @@ class Notifications extends React.Component {
         }
 
         const notifications = this.props.notify.map((notification) => {
-
+            let idURL='user_' + this.props.cookies.userId;
+            let valueURL = 'user_' + notification.user_id;
             return (
                 <div>
                 {notification.username} wants to be your task buddy for {notification.category} at {notification.location}, {notification.selectedtime}
-                <div>
-                <a href ='/user/chat'>chat</a></div>
-                </div> );
+                <button id ={idURL} value={valueURL}> chat</button>
+
+                </div>
+                );
         });
 
         return (
           <DefaultLayout title = "Taskbuddy" >
+          <div class='topbar'>
+            <form method ='POST' action={logoutURL}>
+            <input type= 'submit' value={logout}/>
+            </form>
+
+            <form method='GET' action={profileURL}>
+            <input type='submit' value ={profile}/>
+            </form>
+
+            <form method ='GET' action ='/'>
+            <input type='submit' value ='Home'/>
+            </form>
+            </div>
           {notifications}
 
-          {Chat}
+          <Chat />
             </DefaultLayout>
         );
     }

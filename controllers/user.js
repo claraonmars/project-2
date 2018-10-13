@@ -75,9 +75,13 @@ module.exports = (db) => {
                     userName: request.cookies['userName'],
                     name: request.cookies['name']
                 }
+        if (cookies.staus === 'loggedIn'){
         db.user.profile(cookies, (error, queryResult)=>{
         response.render('user/profile', {cookies:cookies, requests: queryResult.rows})
-    });
+    });}
+        else{
+            response.redirect('/');
+        }
     }
 
     const addReaction = (request, response) => {
@@ -149,11 +153,27 @@ module.exports = (db) => {
     }
 
     const openChat = (request, response)=>{
-        response.send('ok');
+        let currentUser = request.cookies['userId'];
+        let otherUser = request.params.id;
+        db.user.openChat(currentUser, otherUser, (error, queryResult)=>{
+           if (error) {
+                console.error('error opening chat:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+        })
     }
 
     const startChat= (request, response) =>{
-        response.send('ok');
+        let currentUser = request.cookies['userId'];
+        console.log(request.query);
+        db.user.startChat(currentUser, request.query, (error, queryResult)=>{
+           if (error) {
+                console.error('error opening chat:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+        })
     }
 
     return {
