@@ -37,4 +37,9 @@ module.exports = (app, db) => {
   app.get('/user/checknotification', user.checkNotification);
   app.get('/user/chat', user.startChat);// update chat table
   app.get('/user/chat/:id', user.openChat); // create temp chat table
+
+  app.get('/post/sort/db', posts.sortDb);
+  app.get('/post/sort/loc', posts.sortLoc);
+  //app.post('/post/calculatedist', post.calDist); // update time distance in table.
+  //app.get('/post/sort', post.sortLoc); // sort distance timing
 };

@@ -1,6 +1,6 @@
 module.exports = (dbPoolInstance) => {
     const allPosts = (userid, callback) => {
-        let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE NOT users.id =' + userid;
+        let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE NOT users.id =' + userid +'ORDER BY distance DESC';
             dbPoolInstance.query(queryString, (error, queryResult) => {
                 // if (queryResult.rowCount >= 1) {
                     callback(error, queryResult);
@@ -12,8 +12,8 @@ module.exports = (dbPoolInstance) => {
     };
 
     const postedReq = (type, requestbody, user_id, callback) => {
-        let queryString = 'INSERT INTO posts (user_id, category, location, selectedTime, details, postedAt) VALUES ($1,$2,$3,$4,$5, CURRENT_TIMESTAMP) RETURNING *';
-        let values = [user_id, type, requestbody.location, requestbody.time, requestbody.details];
+        let queryString = 'INSERT INTO posts (user_id, category, locname, loclat, loclong, selectedTime, details, postedAt) VALUES ($1,$2,$3,$4,$5, $6, $7, CURRENT_TIMESTAMP) RETURNING *';
+        let values = [user_id, type, requestbody.locName, parseInt(requestbody.locLat), parseInt(requestbody.locLong), requestbody.time, requestbody.details];
         dbPoolInstance.query(queryString, values, (error, queryResult) => {
             callback(error, queryResult);
         });
@@ -30,7 +30,7 @@ module.exports = (dbPoolInstance) => {
 
     const updatePost = (requestbody, postid, callback) =>{
         let queryString =
-        `UPDATE posts SET location = '${requestbody.location}', selectedTime = '${requestbody.time}',
+        `UPDATE posts SET locname = '${requestbody.location}', selectedTime = '${requestbody.time}',
         details = '${requestbody.details}' WHERE post_id = ${postid}`;
         dbPoolInstance.query(queryString, (error, queryResult) => {
             console.log('check:',queryString)
@@ -47,6 +47,24 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    const sortDb = (userid, callback) =>{
+        let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE NOT users.id =' + userid;
+
+        dbPoolInstance.query(queryString, (error, queryResult) => {
+            callback(error, queryResult);
+
+        });
+    }
+
+    const sortLoc = (postid, duration, callback) =>{
+        let queryString = 'INSERT INTO posts (distance) VALUES ($1) WHERE post_id =' + postid;
+        let values = [duration];
+        dbPoolInstance.query(queryString, values, (error, queryResult) => {
+            callback(error, queryResult);
+
+        });
+    }
+
 
 
     return {
@@ -54,6 +72,7 @@ module.exports = (dbPoolInstance) => {
         postedReq,
         editPost,
         updatePost,
-        remove
+        remove,
+        sortDb
     };
 }

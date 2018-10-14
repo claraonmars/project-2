@@ -18,18 +18,23 @@ window.onload = function() {
         addEventListener('click', startChat);
     }
 
-    if(document.querySelector('#loginLat')){
+    if (document.querySelector('#loginLat')) {
         getLocation();
     }
 
 
     //check which requests user has reacted to
-    if(loginStatus === 'loggedIn'){
-    checkReactions();
+    if (loginStatus === 'loggedIn') {
+        checkReactions();
 
-    //check if others have reacted to my requests
-    checkNotifications();
-}
+        //check if others have reacted to my requests
+        checkNotifications();
+    }
+
+    if (window.location.href.match('http://127.0.0.1:3000/') != null) {
+
+        accessDatabase();
+    }
 
 
 };
@@ -43,7 +48,7 @@ function getLocation() {
 
 function showPosition(position) {
     document.querySelector('#loginLat').value = position.coords.latitude;
-        document.querySelector('#loginLong').value = position.coords.longitude;
+    document.querySelector('#loginLong').value = position.coords.longitude;
 
 }
 
@@ -236,7 +241,6 @@ function startChat() {
 
     var form = document.getElementById("chatform").value;
     //console.log(form);
-
     var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform=" + form;
 
     var responseHandler = function() {
@@ -253,36 +257,83 @@ function startChat() {
         messagebox.innerText = responseObj.rows[rowsNum].chat;
         document.querySelector('.chatbody').appendChild(messagebox);
         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+    };
+    var request = new XMLHttpRequest();
+    request.addEventListener("load", responseHandler);
+    request.open("GET", ajaxUrl);
+    request.send();
+}
 
+function accessDatabase() {
+    let currentuserLat = readCookie('latitude');
+    let currentuserLong = readCookie('longitude');
+
+    var ajaxUrlOne = 'http://127.0.0.1:3000/post/sort/db';
+    var responseHandlerOne = function() {
+
+        var responseObjOne = JSON.parse(this.responseText);
+
+        for (var i = 0; i < responseObjOne.rows.length; i++) {
+            var ajaxUrlTwo = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + (currentuserLong) + ',' + (currentuserLat) + ';' + (responseObjOne.rows[i].loclong) + ',' + (responseObjOne.rows[i].loclat) + '?access_token=pk.eyJ1IjoiY2xhcmFvbm1hcnMiLCJhIjoiY2puOHgxdnhlMGk5bTN0bnc2b2JiaXhuZSJ9.Bbd0prUBoCltNk8UOyFD0Q'
+
+            console.log(ajaxUrlTwo);
+            let numOne = responseObjOne.rows[i].post_id;
+
+            var responseHandlerTwo = function() {
+
+                var responseObjTwo = JSON.parse(this.responseText);
+                console.log('isthisworking:',responseObjTwo)
+                let numTwo = responseObjTwo.rows[i].routes.duration;
+
+                console.log('this:', responseObjTwo);
+                console.log('wbu',responseObjOne.rows[1].post_id)
+
+
+
+                var ajaxUrlThree = 'http://127.0.0.1:3000/post/sort/loc?id=' + numOne + '&duration=' + numTwo;
+
+                var responseHandlerThree = function() {
+                    var responseObjThree = JSON.parse(this.responseText);
+
+                };
+                var requestThree = new XMLHttpRequest();
+                requestThree.addEventListener("load", responseHandlerThree);
+                requestThree.open("GET", ajaxUrlThree);
+                requestThree.send();
+
+
+
+            }
+            var requestTwo = new XMLHttpRequest();
+            requestTwo.addEventListener("load", responseHandlerTwo);
+            requestTwo.open("GET", ajaxUrlTwo);
+            requestTwo.send();
+        }
 
     };
-
-    var request = new XMLHttpRequest();
-
-    request.addEventListener("load", responseHandler);
-
-    request.open("GET", ajaxUrl);
-
-    request.send();
+    var requestOne = new XMLHttpRequest();
+    requestOne.addEventListener("load", responseHandlerOne);
+    requestOne.open("GET", ajaxUrlOne);
+    requestOne.send();
 }
 
 
 function saveLocation() {
-            var input = document.getElementById('location');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                var place = autocomplete.getPlace();
-                var lat = place.geometry.location.lat();
-                var long = place.geometry.location.lng()
+    var input = document.getElementById('location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        var place = autocomplete.getPlace();
+        var lat = place.geometry.location.lat();
+        var long = place.geometry.location.lng()
 
-                document.getElementById('city2').value = place.name;
-                document.getElementById('cityLat').value = place.geometry.location.lat();
-                document.getElementById('cityLng').value = place.geometry.location.lng();
-                //alert("This function is working!");
-                //alert(place.name);
-               // alert(place.address_components[0].long_name);
+        document.getElementById('city2').value = place.name;
+        document.getElementById('cityLat').value = place.geometry.location.lat();
+        document.getElementById('cityLng').value = place.geometry.location.lng();
+        //alert("This function is working!");
+        //alert(place.name);
+        // alert(place.address_components[0].long_name);
 
-            });
-        }
+    });
+}
 
-                google.maps.event.addDomListener(window, 'load', saveLocation);
+google.maps.event.addDomListener(window, 'load', saveLocation);

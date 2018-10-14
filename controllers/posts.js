@@ -76,6 +76,31 @@ module.exports = (db) => {
         })
     }
 
+    const sortLoc = (request, response) =>{
+        let postid =request.query.id;
+        let duration = request.query.duration;
+        db.posts.sortLoc(postid, duration, (error, queryResult) => {
+        if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+
+        });
+    }
+
+    const sortDb = (request, response) =>{
+        let userid =request.cookies['userId']
+        db.posts.sortDb(userid, (error, queryResult) => {
+        if (error) {
+                console.error('error getting user:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+
+        });
+    }
+
 
     return {
         home,
@@ -84,7 +109,8 @@ module.exports = (db) => {
         editPost,
         updatePost,
         remove,
-
+        sortDb,
+        sortLoc
     };
 
 }

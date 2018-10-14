@@ -13,6 +13,8 @@ class RegisterForm extends React.Component {
           email:<input name='email' type='text'/><br/>
           Username:<input name='username' type='text'/><br/>
           Password:<input name="password" type="text" />
+          <input type='hidden' name='lat' id='loginLat'/>
+          <input type='hidden' name='long' id='loginLong'/>
 
           <input type='submit' name ='Register Me!' />
           </form>
