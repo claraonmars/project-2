@@ -75,7 +75,11 @@ class postForm extends React.Component {
             <form method='POST' action ={actionURL}>
             I am looking for a {this.props.type} buddy!<br/>
 
-            Location: <input type='text' id='location' name='location'/><br/>
+            <input id="location" type="text" size="50" placeholder="Enter a location" autocomplete="on" runat="server" />
+            <input type="hidden" id="city2" name="locName" />
+            <input type="hidden" id="cityLat" name="locLat" />
+            <input type="hidden" id="cityLng" name="locLong" />
+
 
             Time:
             <select name="time">

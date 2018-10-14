@@ -76,13 +76,15 @@ module.exports = (db) => {
         })
     }
 
+
     return {
         home,
         postReqForm,
         postedReq,
         editPost,
         updatePost,
-        remove
+        remove,
+
     };
 
 }

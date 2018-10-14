@@ -27,6 +27,8 @@ module.exports = (db) => {
                 response.cookie('userId', queryResult.rows[0].id);
                 response.cookie('userName', queryResult.rows[0].username);
                 response.cookie('name', queryResult.rows[0].firstname);
+                response.cookie('latitude', request.body.lat);
+                response.cookie('longitude', request.body.long);
 
                 response.redirect('/');
 
@@ -51,6 +53,11 @@ module.exports = (db) => {
                 response.cookie('userId', queryResult.rows[0].id);
                 response.cookie('userName', queryResult.rows[0].username);
                 response.cookie('name', queryResult.rows[0].firstname);
+                response.cookie('latitude', request.body.lat);
+                response.cookie('longitude', request.body.long);
+
+                console.log(request.body);
+
                 response.redirect('/');
             } else {
                 response.send('not logged in')
@@ -64,6 +71,8 @@ module.exports = (db) => {
         response.clearCookie('userId');
         response.clearCookie('userName');
         response.clearCookie('name');
+        response.clearCookie('latitude');
+        response.clearCookie('longitude');
         response.redirect('/login');
 
     }

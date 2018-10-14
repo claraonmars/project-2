@@ -1,5 +1,7 @@
 window.onload = function() {
     let currentuser = readCookie('userId');
+    let loginStatus = readCookie('status');
+
 
     //if div exists on page, execute event listener
     if (document.querySelector('#selected')) {
@@ -11,46 +13,44 @@ window.onload = function() {
         addEventListener('click', openChatWindow);
     }
 
-    //openChat();
-
     if (document.querySelector('#submitchatform')) {
         document.querySelector('#submitchatform').
         addEventListener('click', startChat);
     }
 
+    if(document.querySelector('#loginLat')){
+        getLocation();
+    }
+
+
     //check which requests user has reacted to
+    if(loginStatus === 'loggedIn'){
     checkReactions();
 
     //check if others have reacted to my requests
     checkNotifications();
+}
 
-    //getLocation();
 
 };
 
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
 
-// var x = document.querySelector("body");
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        //x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
 function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-        "<br>Longitude: " + position.coords.longitude;
+    document.querySelector('#loginLat').value = position.coords.latitude;
+        document.querySelector('#loginLong').value = position.coords.longitude;
+
 }
 
 
+
 //SELECT * FROM Places WHERE (Lat - :Lat)^2 + (Long - :Long)^2 <= :Distance^2
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
+
 
 function addReaction() {
     event.preventDefault();
@@ -92,12 +92,12 @@ function addReaction() {
 
 };
 
-function removeReaction(){
+function removeReaction() {
     event.preventDefault();
 
     let postid = document.getElementById("postid").value;
 
-    var ajaxUrl = "http://127.0.0.1:3000/user/remove/" + postid  + '?_method=DELETE';
+    var ajaxUrl = "http://127.0.0.1:3000/user/remove/" + postid + '?_method=DELETE';
 
     var responseHandler = function() {
         //console.log("response text", this.responseText);
@@ -170,15 +170,15 @@ function checkNotifications() {
         var responseObj = JSON.parse(this.responseText);
 
         // if other user has reacted to my request
-        for (var i =0; i < responseObj.rows.length; i++){
-        if (responseObj.rowCount >= 1 && responseObj.rows[i].readby === false) {
+        for (var i = 0; i < responseObj.rows.length; i++) {
+            if (responseObj.rowCount >= 1 && responseObj.rows[i].readby === false) {
 
-            var link = document.createElement('a');
-            link.href = '/user/notification';
-            link.innerText = responseObj.rowCount;
-            document.querySelector('.notification').appendChild( link );
+                var link = document.createElement('a');
+                link.href = '/user/notification';
+                link.innerText = responseObj.rowCount;
+                document.querySelector('.notification').appendChild(link);
+            }
         }
-    }
     };
     var request = new XMLHttpRequest();
 
@@ -189,7 +189,7 @@ function checkNotifications() {
     request.send();
 }
 
-function openChatWindow(){
+function openChatWindow() {
     document.querySelector('.chatbox').setAttribute("style", "display: block;");
 
     openChat();
@@ -198,7 +198,7 @@ function openChatWindow(){
 function openChat() {
     event.preventDefault();
 
-    let currentuser = 'user_'+readCookie('userId');
+    let currentuser = 'user_' + readCookie('userId');
 
     let otheruser = document.getElementById(currentuser).value;
 
@@ -213,13 +213,13 @@ function openChat() {
 
         //append any existing chat
 
-        for (var i =0; i<responseObj.rows.length; i++){
-        var messagebox = document.createElement('p');
-        messagebox.innerText = responseObj.rows[i].chat;
-        document.querySelector('.chatbody').appendChild(messagebox);
+        for (var i = 0; i < responseObj.rows.length; i++) {
+            var messagebox = document.createElement('p');
+            messagebox.innerText = responseObj.rows[i].chat;
+            document.querySelector('.chatbody').appendChild(messagebox);
         }
 
-         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+        document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
 
     };
     var request = new XMLHttpRequest();
@@ -234,10 +234,10 @@ function openChat() {
 function startChat() {
     event.preventDefault();
 
-    var form =document.getElementById("chatform").value;
+    var form = document.getElementById("chatform").value;
     //console.log(form);
 
-    var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform="+form;
+    var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform=" + form;
 
     var responseHandler = function() {
         console.log("response text", this.responseText);
@@ -247,12 +247,12 @@ function startChat() {
         var responseObj = JSON.parse(this.responseText);
         console.log(responseObj);
 
-    var rowsNum = parseInt(responseObj.rows.length-1);
+        var rowsNum = parseInt(responseObj.rows.length - 1);
 
-    var messagebox = document.createElement('p');
+        var messagebox = document.createElement('p');
         messagebox.innerText = responseObj.rows[rowsNum].chat;
         document.querySelector('.chatbody').appendChild(messagebox);
-      document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+        document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
 
 
     };
@@ -264,11 +264,25 @@ function startChat() {
     request.open("GET", ajaxUrl);
 
     request.send();
-
-
 }
 
 
+function saveLocation() {
+            var input = document.getElementById('location');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng()
 
+                document.getElementById('city2').value = place.name;
+                document.getElementById('cityLat').value = place.geometry.location.lat();
+                document.getElementById('cityLng').value = place.geometry.location.lng();
+                //alert("This function is working!");
+                //alert(place.name);
+               // alert(place.address_components[0].long_name);
 
+            });
+        }
 
+                google.maps.event.addDomListener(window, 'load', saveLocation);

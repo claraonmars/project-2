@@ -17,7 +17,8 @@ class DefaultLayout extends React.Component {
                     {this.props.children}
                 </div>
 
-                <script src='/script.js'></script>
+
+                <script src="https://maps.googleapis.com/maps/api/js?libraries=places" type="text/javascript"></script>                <script src='/script.js'></script>
                 </body>
             </html>
     );

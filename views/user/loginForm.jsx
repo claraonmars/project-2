@@ -10,6 +10,8 @@ class LoginForm extends React.Component {
           <form method ='POST' action='/login/success'>
           Username:<input name='username' type='text'/><br/>
           Password:<input name="password" type="text" />
+          <input type='hidden' name='lat' id='loginLat'/>
+          <input type='hidden' name='long' id='loginLong'/>
           <input type='submit' name ='Login' />
           </form>
 
