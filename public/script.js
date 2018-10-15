@@ -31,11 +31,10 @@ window.onload = function() {
         checkNotifications();
     }
 
-    if (window.location.href.match('http://127.0.0.1:3000/') != null) {
+    if (window.location.href.match('http://127.0.0.1:3000') != null) {
 
         accessDatabase();
     }
-
 
 };
 
@@ -53,10 +52,6 @@ function showPosition(position) {
 }
 
 
-
-//SELECT * FROM Places WHERE (Lat - :Lat)^2 + (Long - :Long)^2 <= :Distance^2
-
-
 function addReaction() {
     event.preventDefault();
 
@@ -72,8 +67,9 @@ function addReaction() {
 
         // react to a request (accepting a task)
         if (document.getElementById("selected").value === "selected") {
-            document.getElementById("selected").value = "deselect";
-            removeReaction();
+                        removeReaction();
+
+            document.getElementById("selected").value = "Become Task Buddy";
 
             //document.select_task.action = '/user';
 
@@ -98,7 +94,6 @@ function addReaction() {
 };
 
 function removeReaction() {
-    event.preventDefault();
 
     let postid = document.getElementById("postid").value;
 
@@ -147,7 +142,7 @@ function checkReactions() {
         // if item has been selected by currentuser
         if (responseObj.rowCount >= 1) {
             let here = readCookie('userId');
-            console.log(responseObj.rows[0].user_id);
+
             for (var i = 0; i < responseObj.rows.length; i++) {
                 if (responseObj.rows[i].user_id === parseInt(here)) {
                     document.getElementById("selected").value = "selected";
@@ -182,6 +177,7 @@ function checkNotifications() {
                 link.href = '/user/notification';
                 link.innerText = responseObj.rowCount;
                 document.querySelector('.notification').appendChild(link);
+                documet.querySelector('.notification').setAttribute("style", "display: block;")
             }
         }
     };
@@ -200,12 +196,14 @@ function openChatWindow() {
     openChat();
 }
 
+let otheruser;
+
 function openChat() {
     event.preventDefault();
 
-    let currentuser = 'user_' + readCookie('userId');
+    let currentuser = 'user_'+readCookie('userId');
 
-    let otheruser = document.getElementById(currentuser).value;
+    otheruser = document.getElementById(currentuser).value;
 
     var ajaxUrl = 'http://127.0.0.1:3000/user/chat/' + otheruser;
 
@@ -215,12 +213,13 @@ function openChat() {
         //console.log("status code", this.status);
 
         var responseObj = JSON.parse(this.responseText);
+        console.log('needtoseethis:', responseObj);
 
         //append any existing chat
 
         for (var i = 0; i < responseObj.rows.length; i++) {
             var messagebox = document.createElement('p');
-            messagebox.innerText = responseObj.rows[i].chat;
+            messagebox.innerText = responseObj.rows[i].username +' : '+ responseObj.rows[i].chat;
             document.querySelector('.chatbody').appendChild(messagebox);
         }
 
@@ -238,10 +237,11 @@ function openChat() {
 
 function startChat() {
     event.preventDefault();
+    let currentuser = 'user_'+readCookie('userId');
+
 
     var form = document.getElementById("chatform").value;
-    //console.log(form);
-    var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform=" + form;
+    var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform=" + form + "&otheruser=" + otheruser;
 
     var responseHandler = function() {
         console.log("response text", this.responseText);
@@ -251,12 +251,15 @@ function startChat() {
         var responseObj = JSON.parse(this.responseText);
         console.log(responseObj);
 
+
+
         var rowsNum = parseInt(responseObj.rows.length - 1);
 
         var messagebox = document.createElement('p');
-        messagebox.innerText = responseObj.rows[rowsNum].chat;
+        messagebox.innerText = responseObj.rows[rowsNum].username +' : ' +responseObj.rows[rowsNum].chat;
         document.querySelector('.chatbody').appendChild(messagebox);
         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+
     };
     var request = new XMLHttpRequest();
     request.addEventListener("load", responseHandler);
@@ -283,17 +286,14 @@ function accessDatabase() {
 
                 var responseObjTwo = JSON.parse(this.responseText);
                 console.log('isthisworking:',responseObjTwo)
-                let numTwo = responseObjTwo.rows[i].routes.duration;
-
-                console.log('this:', responseObjTwo);
-                console.log('wbu',responseObjOne.rows[1].post_id)
-
-
+                let numTwo = responseObjTwo.routes[0].duration;
 
                 var ajaxUrlThree = 'http://127.0.0.1:3000/post/sort/loc?id=' + numOne + '&duration=' + numTwo;
 
                 var responseHandlerThree = function() {
                     var responseObjThree = JSON.parse(this.responseText);
+                    console.log('whatabouthtis:',responseObjThree)
+
 
                 };
                 var requestThree = new XMLHttpRequest();
@@ -326,9 +326,10 @@ function saveLocation() {
         var lat = place.geometry.location.lat();
         var long = place.geometry.location.lng()
 
+
         document.getElementById('city2').value = place.name;
-        document.getElementById('cityLat').value = place.geometry.location.lat();
-        document.getElementById('cityLng').value = place.geometry.location.lng();
+        document.getElementById('cityLat').value = lat;
+        document.getElementById('cityLng').value = long;
         //alert("This function is working!");
         //alert(place.name);
         // alert(place.address_components[0].long_name);

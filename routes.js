@@ -11,7 +11,8 @@ module.exports = (app, db) => {
   // CRUD users
   app.get('/', posts.home);
 
-  app.get('/user', user.profile);
+  app.get('/profile', user.profile);
+  //app.get('/profile/:id', user.indProfile);
   //app.post('/user/react/:id', user.reactTo);
 
   app.get('/login', user.loginForm);
@@ -28,6 +29,7 @@ module.exports = (app, db) => {
 
   app.get('/post/:id/edit', posts.editPost);
   app.delete('/post/:id', posts.remove);
+  app.delete('/post/remove/:id', user.removeAccept);
   app.get('/user/notification', user.viewNotification);
 
   //ajax calls
@@ -40,6 +42,5 @@ module.exports = (app, db) => {
 
   app.get('/post/sort/db', posts.sortDb);
   app.get('/post/sort/loc', posts.sortLoc);
-  //app.post('/post/calculatedist', post.calDist); // update time distance in table.
-  //app.get('/post/sort', post.sortLoc); // sort distance timing
+
 };

@@ -13,14 +13,14 @@ class Notifications extends React.Component {
           logout = 'Logout'
           logoutURL = '/logout' + '?_method=DELETE';
           profile =' Profile'
-          profileURL = '/user'
+          profileURL = '/profile'
         }
 
         const notifications = this.props.notify.map((notification) => {
-            let idURL='user_' + this.props.cookies.userId;
-            let valueURL = 'user_' + notification.user_id;
+            let idURL='user_'+this.props.cookies.userId;
+            let valueURL = notification.user_id;
             return (
-                <div>
+                <div class='request'>
                 {notification.username} wants to be your task buddy for {notification.category} at {notification.location}, {notification.selectedtime}
                 <button id ={idURL} value={valueURL}> chat</button>
 
@@ -37,6 +37,10 @@ class Notifications extends React.Component {
 
             <form method='GET' action={profileURL}>
             <input type='submit' value ={profile}/>
+            </form>
+
+            <form method ='GET' action ='/user/notification'>
+            <input type='submit' value ='Alerts'/>
             </form>
 
             <form method ='GET' action ='/'>

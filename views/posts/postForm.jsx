@@ -15,7 +15,7 @@ class postForm extends React.Component {
           logout = 'Logout'
           logoutURL = '/logout' + '?_method=DELETE';
           profile =' Profile'
-          profileURL = '/user'
+          profileURL = '/profile'
         }
 
     let time =[

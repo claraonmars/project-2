@@ -56,8 +56,6 @@ module.exports = (db) => {
                 response.cookie('latitude', request.body.lat);
                 response.cookie('longitude', request.body.long);
 
-                console.log(request.body);
-
                 response.redirect('/');
             } else {
                 response.send('not logged in')
@@ -84,9 +82,10 @@ module.exports = (db) => {
                     userName: request.cookies['userName'],
                     name: request.cookies['name']
                 }
-        if (cookies.staus === 'loggedIn'){
-        db.user.profile(cookies, (error, queryResult)=>{
-        response.render('user/profile', {cookies:cookies, requests: queryResult.rows})
+        if (cookies.status === 'loggedIn'){
+        db.user.profile(cookies, (error, queryResult, secondQueryResult)=>{
+            console.log(secondQueryResult)
+        response.render('user/profile', {cookies:cookies, requests: queryResult.rows, accepted: secondQueryResult.rows})
     });}
         else{
             response.redirect('/');
@@ -161,6 +160,16 @@ module.exports = (db) => {
         })
     }
 
+    const removeAccept = (request, response) =>{
+        db.user.removeAccept(request.params.id, (error, callback)=>{
+            if (error) {
+                console.error('error removing this user reaction:', error);
+                response.sendStatus(500);
+            }
+            response.redirect('user/notifications');
+        })
+    }
+
     const openChat = (request, response)=>{
         let currentUser = request.cookies['userId'];
         let otherUser = request.params.id;
@@ -175,7 +184,6 @@ module.exports = (db) => {
 
     const startChat= (request, response) =>{
         let currentUser = request.cookies['userId'];
-        console.log(request.query);
         db.user.startChat(currentUser, request.query, (error, queryResult)=>{
            if (error) {
                 console.error('error opening chat:', error);
@@ -197,6 +205,7 @@ module.exports = (db) => {
         checkNotification,
         viewNotification,
         removeReaction,
+        removeAccept,
         openChat,
         startChat
     };

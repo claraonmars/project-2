@@ -17,14 +17,29 @@ class Profile extends React.Component {
 
         const requests = this.props.requests.map((requests) => {
             let url = '/post/' + requests.post_id + '/edit'
-            let deleteURL = '/post/' + requests.post_id + '?_method=DELETE'
+            let deleteURLone = '/post/' + requests.post_id + '?_method=DELETE'
             return (
                 <div class='request'>
-                {requests.category}:{requests.details} at {requests.location} at {requests.selectedtime}
+                {requests.category} buddy<br/>
+                {requests.details} at {requests.locname} at {requests.selectedtime}
                 <br/>
                 <form method ='GET' action = {url}>
-                <input type ='submit' value='edit'/>
+                <input type ='submit' value='Edit'/>
                 </form>
+
+                <form method ='POST' action = {deleteURLone}>
+                <input type ='submit' value='Remove'/>
+                </form>
+                </div> );
+        });
+
+        const accepted = this.props.accepted.map((accepted) => {
+            let deleteURL = '/post/remove/' + accepted.post_id + '?_method=DELETE'
+            return (
+                <div class='request'>
+                {accepted.username}'s {accepted.category} buddy<br/>
+                {accepted.details} at {accepted.locname} at {accepted.selectedtime}
+                <br/>
 
                 <form method ='POST' action = {deleteURL}>
                 <input type ='submit' value='Remove'/>
@@ -44,15 +59,26 @@ class Profile extends React.Component {
             <input type='submit' value ={profile}/>
             </form>
 
+            <form method ='GET' action ='/user/notification'>
+            <input type='submit' value ='Alerts'/>
+            </form>
+
             <form method ='GET' action ='/'>
             <input type='submit' value ='Home'/>
             </form>
             </div>
             <article>
 
-            Welcome back {this.props.cookies.name}<br />
+            <div class='header'>
+            Welcome back {this.props.cookies.name}<br /><br />
+            </div>
 
-            Current requests: {requests}
+            <div class='request'>Still looking for buddies for these tasks:</div>
+            {requests}
+
+            <hr/>
+            <div class='request'>Your scheduled tasks:</div>
+            {accepted}
 
 
             </article>

@@ -13,12 +13,12 @@ post_id SERIAL PRIMARY KEY,
 user_id INTEGER,
 category TEXT,
 locName TEXT,
-locLat DECIMAL(38, 6),
-locLong DECIMAL(38, 6),
+locLat numeric(10,8),
+locLong numeric(11,8),
 selectedTime TEXT,
 details TEXT,
-postedAt TIMESTAMPTZ
-distance INTEGER DEFAULT NULL
+postedAt TIMESTAMPTZ,
+distance INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS schedule(

@@ -1,8 +1,13 @@
 body{
 	margin:0;
-	font-family: 'Rubik', sans-serif;
+	font-family: 'Helvetica', sans-serif;
 	font-weight: 300;
 	font-size:18px;
+	background-color: #E7E5DF;
+}
+
+.container{
+	margin:0;
 }
 
 .topbar{
@@ -10,34 +15,142 @@ body{
 	top:0;
 	height:5vh;
 	width:100vw;
+	background-color: #D3D0CB;
+	z-index: +2;
 }
 
 .topbar form{
 	float:right;
 }
 
+.topbar input[type=submit]{
+	width:80px;
+	background-color: #D3D0CB;
+	border:none;
+	font-size: 14px;
+	line-height: 4vh;
+}
+
 article{
 	position: relative;
-	height:100vh;
-	width:100vw;
-	background-color: #0000;
+	height:95vh;
+	width:60vw;
+	margin: 0 auto;
+}
+
+article form{
+	display: inline-block;
+}
+
+.login{
+	margin: 0 auto;
+	width:30vw;
+}
+
+.login input[type=text]{
+	width:18vw;
+	float:right;
+}
+
+.login input[type=submit]{
+width:100%;
+height:25px;
+border-radius:5px;
+background-color: #E7E5DF;
+border:none;
+display: inline-block;
+color: #393E41;
+font-size: 14px;
+text-align: center;
+align-content: center;
+}
+
+.posts input[type=submit]{
+width:15vw;
+height:50px;
+border-radius:5px;
+background-color: #393E41;
+margin:2vw;
+display: inline-block;
+color: #EEBE48;
+font-size: 14px;
+}
+
+.posts input[type=submit]:hover{
+background-color: #000;
+}
+
+.feed{
+	width:50vw;
+	margin:0 auto;
+}
+
+.more{
+	font-size: 14px;
+	margin-bottom:20px;
+}
+
+.header{
+	font-size: 20px;
+	text-align: center;
+	margin: 90px 0 50px 0;
+}
+
+.request-item{
+	margin:20px auto;
+	padding:20px;
+	width:20vw;
+	display: inline-block;
+	vertical-align: top;
 }
 
 .request-item:hover{
-	box-shadow: 2px 2px 10px black;
+	box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+}
+
+.request-item input[type=submit]{
+width:20vw;
+height:30px;
+border-radius:5px;
+background-color: #EEBE48;
+display: inline-block;
+color: #393E41 ;
+font-size: 12px;
+}
+
+.request{
+	width:50vw;
+	margin:50px auto;
+}
+
+.request input[type=submit]{
+width:auto;
+height:auto;
+border-left:none;
+border-right:none;
+border-top:none;
+border-bottom:1px solid black;
+background-color: #E7E5DF;
+display: inline-block;
+color: #393E41 ;
+font-size: 10px;
+margin-right:10px;
+padding: 0;
 }
 
 .notification{
-	background-color: black;
+	background-color: #FE6263;
 	border-radius:100px;
 	width:20px;
 	height:20px;
 	text-align: center;
 	color:white;
 	position:fixed;
-	top:0;
+	top:20px;
 	float:right;
+	right:160px;
 	z-index:+1;
+	display:none;
 }
 
 .chatbox{
@@ -79,6 +192,6 @@ article{
 
 
 a{
-	color:red;
+	color:black;
 	text-decoration: none;
 }

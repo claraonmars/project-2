@@ -13,7 +13,7 @@ class AllPosts extends React.Component {
           logout = 'Logout'
           logoutURL = '/logout' + '?_method=DELETE';
           profile =' Profile'
-          profileURL = '/user'
+          profileURL = '/profile'
 
         }
 
@@ -22,10 +22,14 @@ class AllPosts extends React.Component {
         }else{
          posts = this.props.posts.map((post) => {
             let actionURL = '/user/accept/' + post.post_id;
-            console.log(post.post_id);
+            let userURL = 'profile/' + post.user_id
             return (
                 <div class='request-item'>
-                {post.category} at {post.location}
+                <a href={userURL}>{post.username}</a> is looking for a {post.category} buddy at {post.locname} at {post.selectedtime}
+                <br/><br/>
+                <div class='more'>
+                {post.details}
+                </div>
 
                 <form method = 'POST' name='select_task' action ={actionURL}>
                     <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
@@ -47,11 +51,20 @@ class AllPosts extends React.Component {
             <input type='submit' value ={profile}/>
             </form>
 
+            <form method ='GET' action ='/user/notification'>
+            <input type='submit' value ='Alerts'/>
+            </form>
+
             <form method ='GET' action ='/'>
             <input type='submit' value ='Home'/>
             </form>
+
             </div>
-            <article>
+            <article class='posts'>
+            <div class='header'>
+
+            Find a task buddy!
+            </div>
 
             <form action='/post/lunch' method ='GET'>
             <input type='submit' value ='Lunch Buddy' />
@@ -77,9 +90,14 @@ class AllPosts extends React.Component {
             <input type='submit' value ='Errand Buddy' />
             </form>
 
-
             </article>
-            <article>
+
+            <article class='feed' id='artfeed'>
+            <div class='header'>
+            <br/><br/><br/>
+            Be someone's task buddy!
+            </div>
+
             {posts}
             </article>
 
