@@ -28,5 +28,8 @@
     "react-bootstrap-time-picker": "^1.0.3",
     "react-dom": "^16.5.2",
     "url": "^0.11.0"
-  }
+  },
+  "engines" : {
+    "node" : "^10.11.0"
+    }
 }
