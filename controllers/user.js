@@ -46,7 +46,7 @@ module.exports = (db) => {
                 response.sendStatus(500);
             }
             var hashedCookie = sha256(request.body.password);
-            if (request.body.username !== undefined && hashedCookie === queryResult.rows[0].password) {
+            if ((request.body.username !== undefined )&& hashedCookie === queryResult.rows[0].password) {
 
                 response.cookie('check', hashedCookie);
                 response.cookie('status', 'loggedIn');
@@ -58,7 +58,7 @@ module.exports = (db) => {
 
                 response.redirect('/');
             } else {
-                response.send('not logged in')
+                response.redirect('/')
             }
         });
     }

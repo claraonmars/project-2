@@ -71,6 +71,11 @@ class Profile extends React.Component {
 
             <div class='header'>
             Welcome back {this.props.cookies.name}<br /><br />
+
+            <form method="post" enctype="multipart/form-data" action="/upload">
+            <input type="file" name="file" />
+            <input type="submit" value="Submit"/>
+            </form>
             </div>
 
             <div class='request'>Still looking for buddies for these tasks:</div>

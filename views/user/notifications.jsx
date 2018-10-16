@@ -21,8 +21,9 @@ class Notifications extends React.Component {
             let valueURL = notification.user_id;
             return (
                 <div class='request'>
-                {notification.username} wants to be your task buddy for {notification.category} at {notification.location}, {notification.selectedtime}
-                <button id ={idURL} value={valueURL}> chat</button>
+                {notification.username} wants to be your {notification.category} buddy at {notification.locname} at {notification.selectedtime}
+                <br/>
+                <button id ={idURL} value={valueURL}> chat with {notification.username}</button>
 
                 </div>
                 );

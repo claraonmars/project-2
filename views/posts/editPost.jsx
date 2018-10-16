@@ -52,6 +52,10 @@ class EditPost extends React.Component {
             <input type= 'submit' value='Logout'/>
             </form>
 
+            <form method ='GET' action ='/user/notification'>
+            <input type='submit' value ='Alerts'/>
+            </form>
+
             <form method ='GET' action ='/'>
             <input type='submit' value ='Home'/>
             </form>
@@ -59,23 +63,29 @@ class EditPost extends React.Component {
             </div>
 
             <article>
-            <h3>Modify</h3>
-            <form method='POST' action ={actionURL}>
-            I am looking for a {this.props.reqinfo[0].category} buddy!<br/>
+            <div class='postform'>
 
-            Location: <input type='text' name='location'/><br/>
+            <form method='POST' action ={actionURL}>
+            Modify my search for a {this.props.reqinfo[0].category} buddy!<br/><br/>
+
+            Location:
+             <input id="location" type="text" size="50" placeholder="Enter a location" autocomplete="on" runat="server" />
+            <input type="hidden" id="city2" name="locName" />
+            <input type="hidden" id="cityLat" name="locLat" />
+            <input type="hidden" id="cityLng" name="locLong" />
+            <br/><br/>
 
             Time:
             <select name="time">
             <option></option>
             {timelist}
-            </select><br/>
+            </select><br/><br/>
 
             Details:
             <input type='text' maxlength="150" name="details"/>
-
+            <br/><br/>
             <input type='submit' name='submit'/>
-            </form>
+            </form></div>
             </article>
 
             </DefaultLayout>

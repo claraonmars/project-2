@@ -172,12 +172,13 @@ function checkNotifications() {
         // if other user has reacted to my request
         for (var i = 0; i < responseObj.rows.length; i++) {
             if (responseObj.rowCount >= 1 && responseObj.rows[i].readby === false) {
+                document.querySelector('.notification').setAttribute("style", "display: block;")
+
 
                 var link = document.createElement('a');
                 link.href = '/user/notification';
                 link.innerText = responseObj.rowCount;
                 document.querySelector('.notification').appendChild(link);
-                documet.querySelector('.notification').setAttribute("style", "display: block;")
             }
         }
     };

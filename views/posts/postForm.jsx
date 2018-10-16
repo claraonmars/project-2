@@ -69,29 +69,40 @@ class postForm extends React.Component {
             <form method='GET' action={profileURL}>
             <input type='submit' value ={profile}/>
             </form>
+
+            <form method ='GET' action ='/user/notification'>
+            <input type='submit' value ='Alerts'/>
+            </form>
+
+            <form method ='GET' action ='/'>
+            <input type='submit' value ='Home'/>
+            </form>
             </div>
 
             <article>
+            <div class='postform'>
             <form method='POST' action ={actionURL}>
-            I am looking for a {this.props.type} buddy!<br/>
+            I am looking for a {this.props.type} buddy!<br/><br/>
 
+            Location:
             <input id="location" type="text" size="50" placeholder="Enter a location" autocomplete="on" runat="server" />
             <input type="hidden" id="city2" name="locName" />
             <input type="hidden" id="cityLat" name="locLat" />
             <input type="hidden" id="cityLng" name="locLong" />
-
-
+            <br/>
+            <br/>
             Time:
             <select name="time">
             <option></option>
             {timelist}
-            </select><br />
+            </select><br /><br />
 
             Details:
             <input type='text' maxlength="150" name="details"/>
-
+            <br /><br />
             <input type='submit' name='submit'/>
             </form>
+            </div>
             </article>
         </DefaultLayout>
     );

@@ -1,5 +1,4 @@
 
-#### 
 #### alert username is taken (ajax)
 #### profile image
 #### overbooking
@@ -31,7 +30,10 @@ Working app is hosted at
 
 ## Unresolved issues
 Ajax calls work but redirect wrongly.
+
 Chat requires a receiver.
+
 Image uploader.
+
 Check for overbooking.
 

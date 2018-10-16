@@ -33,5 +33,6 @@ CREATE TABLE IF NOT EXISTS chat(
 	id SERIAL PRIMARY KEY,
 	currentuser_id INTEGER,
 	otheruser_id INTEGER,
+	poster_id INTEGER,
 	chat TEXT
 );
