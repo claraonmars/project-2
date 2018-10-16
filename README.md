@@ -1,9 +1,3 @@
-
-#### alert username is taken (ajax)
-#### profile image
-#### overbooking
-#### profile
-
 # Project-2
 TaskBuddy is an app targeted at people who might need companionship in completing mundane tasks.
 
@@ -26,7 +20,7 @@ Get notified if a user wants to be their task buddy.
 
 
 ## Deliverables
-Working app is hosted at 
+Working app is hosted at https://taskbuddy-project2.herokuapp.com/
 
 ## Unresolved issues
 Ajax calls work but redirect wrongly.

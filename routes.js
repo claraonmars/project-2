@@ -28,8 +28,8 @@ module.exports = (app, db) => {
   app.post('/post/:id', posts.postedReq);
 
   app.get('/post/:id/edit', posts.editPost);
-  app.delete('/post/:id', posts.remove);
   app.delete('/post/remove/:id', user.removeAccept);
+  app.delete('/post/:id', posts.remove);
   app.get('/user/notification', user.viewNotification);
 
   //ajax calls
