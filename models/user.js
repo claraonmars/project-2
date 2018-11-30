@@ -120,6 +120,13 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    const checkChat = (currentuser, callback) =>{
+        let queryString = 'SELECT * FROM chat WHERE otheruser_id = ' + currentuser +'AND readby = FALSE';
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            callback(error, queryResult);
+            })
+    }
+
     return {
         loggedIn,
         create,
@@ -131,6 +138,7 @@ module.exports = (dbPoolInstance) => {
         removeReaction,
         removeAccept,
         openChat,
-        startChat
+        startChat,
+        checkChat
     };
 }

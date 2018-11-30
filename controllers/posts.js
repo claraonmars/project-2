@@ -1,8 +1,10 @@
 module.exports = (db) => {
 
+
     const home = (request, response) => {
         let userid =request.cookies['userId']
-        db.posts.allPosts(userid, (error, queryResult) => {
+        db.posts.allPosts(userid, (error, queryResult, secondQueryResult) => {
+            console.log('hello')
             if (request.cookies['status'] === 'loggedIn') {
 
                 let cookies = {
@@ -11,12 +13,13 @@ module.exports = (db) => {
                     userName: request.cookies['userName'],
                     name: request.cookies['name']
                 }
+                response.render('posts/allPosts', { posts: queryResult.rows, cookies: cookies, schedule: secondQueryResult.rows})
 
-                response.render('posts/allPosts', { posts: queryResult.rows, cookies: cookies})
             } else {
-                response.redirect('/login');
+                response.render('homePage');
             }
         });
+
     }
 
     const postReqForm = (request, response) => {
@@ -71,7 +74,7 @@ module.exports = (db) => {
                 console.error('error getting user:', error);
                 response.sendStatus(500);
             }
-            response.redirect('/user');
+            response.redirect('/profile');
 
         })
     }

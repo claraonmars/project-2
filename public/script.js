@@ -1,4 +1,14 @@
+
+
 window.onload = function() {
+
+    var socket = io.connect('http://localhost:3000');
+                  socket.on('news', function (data) {
+                    console.log(data);
+                    socket.emit('my other event', { my: 'data' });
+                  });
+
+
     let currentuser = readCookie('userId');
     let loginStatus = readCookie('status');
 
@@ -29,9 +39,11 @@ window.onload = function() {
 
         //check if others have reacted to my requests
         checkNotifications();
+
+        //checkChat();
     }
 
-    if (window.location.href.match('http://127.0.0.1:3000') != null) {
+    if (window.location.href.match('http://localhost:3000') != null) {
 
         accessDatabase();
     }
@@ -57,24 +69,29 @@ function addReaction() {
 
     let postid = document.getElementById("postid").value;
 
-    var ajaxUrl = "http://127.0.0.1:3000/user/accept/" + postid;
+    var ajaxUrl = "/user/accept/" + postid;
 
     // what to do when we recieve the request
     var responseHandler = function() {
+
         //console.log("response text", this.responseText);
         //console.log("status text", this.statusText);
         //console.log("status code", this.status);
 
         // react to a request (accepting a task)
-        if (document.getElementById("selected").value === "selected") {
-                        removeReaction();
+        var responseObj = JSON.parse(this.responseText);
 
-            document.getElementById("selected").value = "Become Task Buddy";
+        // if item has been selected by currentuser
+
+        if (document.getElementById(postid.toString()).value === "Selected") {
+            removeReaction();
+
+            document.getElementById(postid).value = "Become Task Buddy";
 
             //document.select_task.action = '/user';
 
         } else {
-            document.getElementById("selected").value = "selected";
+            document.getElementById(postid).value = "Select";
         }
 
     };
@@ -97,7 +114,7 @@ function removeReaction() {
 
     let postid = document.getElementById("postid").value;
 
-    var ajaxUrl = "http://127.0.0.1:3000/user/remove/" + postid + '?_method=DELETE';
+    var ajaxUrl = "/user/remove/" + postid + '?_method=DELETE';
 
     var responseHandler = function() {
         //console.log("response text", this.responseText);
@@ -129,7 +146,7 @@ function readCookie(name) {
 
 
 function checkReactions() {
-    var ajaxUrl = "http://127.0.0.1:3000/user/checkreaction";
+    var ajaxUrl = "/user/checkreaction";
 
     // what to do when we recieve the request
     var responseHandler = function() {
@@ -141,13 +158,18 @@ function checkReactions() {
 
         // if item has been selected by currentuser
         if (responseObj.rowCount >= 1) {
-            let here = readCookie('userId');
-
-            for (var i = 0; i < responseObj.rows.length; i++) {
-                if (responseObj.rows[i].user_id === parseInt(here)) {
-                    document.getElementById("selected").value = "selected";
-                }
+            for (var i =0; i < responseObj.rows.length; i++){
+                document.getElementById(responseObj.rows[i].post_id.toString()).value = 'Selected';
             }
+            // let here = readCookie('userId');
+
+
+            // for (var i = 0; i < responseObj.rows.length; i++) {
+            //     if (responseObj.rows[i].user_id === parseInt(here)){
+
+
+            //     }
+            // }
         }
     };
     var request = new XMLHttpRequest();
@@ -160,7 +182,7 @@ function checkReactions() {
 };
 
 function checkNotifications() {
-    var ajaxUrl = 'http://127.0.0.1:3000/user/checknotification';
+    var ajaxUrl = '/user/checknotification';
 
     var responseHandler = function() {
         //console.log("response text", this.responseText);
@@ -173,7 +195,6 @@ function checkNotifications() {
         for (var i = 0; i < responseObj.rows.length; i++) {
             if (responseObj.rowCount >= 1 && responseObj.rows[i].readby === false) {
                 document.querySelector('.notification').setAttribute("style", "display: block;")
-
 
                 var link = document.createElement('a');
                 link.href = '/user/notification';
@@ -206,7 +227,7 @@ function openChat() {
 
     otheruser = document.getElementById(currentuser).value;
 
-    var ajaxUrl = 'http://127.0.0.1:3000/user/chat/' + otheruser;
+    var ajaxUrl = '/user/chat/' + otheruser;
 
     var responseHandler = function() {
         //console.log("response text", this.responseText);
@@ -242,7 +263,7 @@ function startChat() {
 
 
     var form = document.getElementById("chatform").value;
-    var ajaxUrl = "http://127.0.0.1:3000/user/chat?chatform=" + form + "&otheruser=" + otheruser;
+    var ajaxUrl = "/user/chat?chatform=" + form + "&otheruser=" + otheruser;
 
     var responseHandler = function() {
         console.log("response text", this.responseText);
@@ -272,7 +293,7 @@ function accessDatabase() {
     let currentuserLat = readCookie('latitude');
     let currentuserLong = readCookie('longitude');
 
-    var ajaxUrlOne = 'http://127.0.0.1:3000/post/sort/db';
+    var ajaxUrlOne = '/post/sort/db';
     var responseHandlerOne = function() {
 
         var responseObjOne = JSON.parse(this.responseText);
@@ -289,7 +310,7 @@ function accessDatabase() {
                 console.log('isthisworking:',responseObjTwo)
                 let numTwo = responseObjTwo.routes[0].duration;
 
-                var ajaxUrlThree = 'http://127.0.0.1:3000/post/sort/loc?id=' + numOne + '&duration=' + numTwo;
+                var ajaxUrlThree = '/post/sort/loc?id=' + numOne + '&duration=' + numTwo;
 
                 var responseHandlerThree = function() {
                     var responseObjThree = JSON.parse(this.responseText);
@@ -337,5 +358,36 @@ function saveLocation() {
 
     });
 }
+
+function checkChat() {
+    let currentuser = 'user_'+readCookie('userId');
+
+    var ajaxUrl = '/user/checkchat';
+
+    var responseHandler = function() {
+        //console.log("response text", this.responseText);
+        //console.log("status text", this.statusText);
+        //console.log("status code", this.status);
+
+        var responseObj = JSON.parse(this.responseText);
+
+        if (responseObj.rowCount >= 1){
+        document.querySelector('.chatbox').setAttribute("style", "display: block;");
+
+        //openChat();
+        }
+
+    };
+    var request = new XMLHttpRequest();
+
+    request.addEventListener("load", responseHandler);
+
+    request.open("GET", ajaxUrl);
+
+    request.send();
+
+}
+
+
 
 google.maps.event.addDomListener(window, 'load', saveLocation);

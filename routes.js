@@ -11,6 +11,11 @@ module.exports = (app, db) => {
   // CRUD users
   app.get('/', posts.home);
 
+// app.get('/', function(req, res) {
+//     res.sendfile('index.html');
+// });
+
+
   app.get('/profile', user.profile);
   //app.get('/profile/:id', user.indProfile);
   //app.post('/user/react/:id', user.reactTo);
@@ -42,5 +47,7 @@ module.exports = (app, db) => {
 
   app.get('/post/sort/db', posts.sortDb);
   app.get('/post/sort/loc', posts.sortLoc);
+
+  app.get('/user/checkchat', user.checkChat);
 
 };

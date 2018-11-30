@@ -1,9 +1,11 @@
 var React = require("react");
 var DefaultLayout = require('../layout/default');
+var Chat = require('../user/chat');
+
 
 class AllPosts extends React.Component {
     render() {
-      let logout
+        let logout
         let logoutURL
         let profile
         let profileURL
@@ -14,92 +16,107 @@ class AllPosts extends React.Component {
           logoutURL = '/logout' + '?_method=DELETE';
           profile =' Profile'
           profileURL = '/profile'
-
+        }
+        else{
+            logout='Login'
+            logoutURL = '/login'
         }
 
         if (this.props.posts === undefined){
             posts= ''
         }else{
+            console.log('what this q',this.props.posts)
          posts = this.props.posts.map((post) => {
             let actionURL = '/user/accept/' + post.post_id;
-            let userURL = 'profile/' + post.user_id
-            return (
-                <div class='request-item'>
-                <a href={userURL}>{post.username}</a> is looking for a {post.category} buddy at {post.locname} at {post.selectedtime}
-                <br/><br/>
-                <div class='more'>
-                {post.details}
-                </div>
+            for (var i=0; i<this.props.schedule.length; i++){
+                if(this.props.schedule[i].post_id === post.post_id){
+                    actionURL = '/user/remove/' +post.post_id + '?_method=DELETE'
 
-                <form method = 'POST' name='select_task' action ={actionURL}>
-                    <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
-                    <input type='submit' id= 'selected' value='Become task buddy'/>
-                </form>
+                }
+            }
+
+            let userURL = '/profile/' + post.user_id;
+            return (
+                <div class='row request-item justify-content-center'>
+
+                    <div class="col-6">
+                        Location: {post.locname}<br/>
+                        Time: {post.selectedtime}<br/>
+                        <a href={userURL}>{post.username}</a>&nbsp; is looking for a {post.category} buddy!
+                        <br/><br/>
+                        <div class='more'>
+                        {post.details}
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <form method = 'POST' name='select_task' action ={actionURL}>
+                            <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
+                            <input type='submit' id= {post.post_id} class='selected' value='Become task buddy'/>
+                        </form>
+                    </div>
                 </div>
                 );
         });
     }
         return (
-          <DefaultLayout title = "Taskbuddy" >
+          <DefaultLayout title = "Taskbuddy" login={logout} loginURL={logoutURL}>
 
-            <div class='topbar'>
-            <form method ='POST' action={logoutURL}>
-            <input type= 'submit' value={logout}/>
-            </form>
+            <div class="header_img">
+                <div className="copy">
+                <h2>Find a task buddy!</h2>
+                <div class="row justify-content-center postOpt">
+                    <div className="posts col-3">
+                        <form action='/post/lunch' method ='GET'>
+                        <input type='submit' value ='Lunch Buddy' />
+                        </form>
+                    </div>
 
-            <form method='GET' action={profileURL}>
-            <input type='submit' value ={profile}/>
-            </form>
+                    <div className="posts col-3">
+                        <form action='/post/gym' method ='GET'>
+                        <input type='submit' value ='Gym Buddy' />
+                        </form>
+                    </div>
 
-            <form method ='GET' action ='/user/notification'>
-            <input type='submit' value ='Alerts'/>
-            </form>
+                    <div className="posts col-3">
+                        <form action='/post/coffee' method ='GET'>
+                        <input type='submit' value ='Coffee Buddy' />
+                        </form>
+                    </div>
+                </div>
 
-            <form method ='GET' action ='/'>
-            <input type='submit' value ='Home'/>
-            </form>
+                <div class="row justify-content-center postOpt">
+                    <div className="posts col-3">
+                        <form action='/post/pokemon-go' method ='GET'>
+                        <input type='submit' value ='Pokemon Go Buddy' />
+                        </form>
+                    </div>
 
+                    <div className="posts col-3">
+                        <form action='/post/smokebreak' method ='GET'>
+                        <input type='submit' value ='Smokebreak Buddy' />
+                        </form>
+                    </div>
+
+                    <div className="posts col-3">
+                        <form action='/post/errand' method ='GET'>
+                        <input type='submit' value ='Errand Buddy' />
+                        </form>
+                    </div>
+                </div>
             </div>
-            <article class='posts'>
-            <div class='header'>
-
-            Find a task buddy!
             </div>
 
-            <form action='/post/lunch' method ='GET'>
-            <input type='submit' value ='Lunch Buddy' />
-            </form>
-
-            <form action='/post/gym' method ='GET'>
-            <input type='submit' value ='Gym Buddy' />
-            </form>
-
-            <form action='/post/coffee' method ='GET'>
-            <input type='submit' value ='Coffee Buddy' />
-            </form>
-
-            <form action='/post/pokemon-go' method ='GET'>
-            <input type='submit' value ='Pokemon Go Buddy' />
-            </form>
-
-            <form action='/post/smokebreak' method ='GET'>
-            <input type='submit' value ='Smokebreak Buddy' />
-            </form>
-
-            <form action='/post/errand' method ='GET'>
-            <input type='submit' value ='Errand Buddy' />
-            </form>
-
-            </article>
-
-            <article class='feed' id='artfeed'>
-            <div class='header'>
-            <br/><br/><br/>
-            Be someone's task buddy!
-            </div>
+            <div class='article' id='artfeed'>
+            <div class='copy'>
+            <h2>Be someone's task buddy!</h2>
 
             {posts}
-            </article>
+            </div>
+
+            </div>
+
+            <Chat />
 
             </DefaultLayout>
         );

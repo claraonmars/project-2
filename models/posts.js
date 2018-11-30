@@ -2,14 +2,15 @@ module.exports = (dbPoolInstance) => {
     const allPosts = (userid, callback) => {
         let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE NOT users.id =' + userid +'ORDER BY distance ASC';
             dbPoolInstance.query(queryString, (error, queryResult) => {
-                // if (queryResult.rowCount >= 1) {
-                    callback(error, queryResult);
-            //     }else{
-            //     callback(error, 'usertaken');
-            // }
-            });
+                let secondQueryString = 'SELECT * FROM schedule WHERE user_id=' + userid;
+                dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
+                callback(error, queryResult, secondQueryResult);
 
+                console.log('know this', secondQueryResult)
+            })
+        });
     };
+
 
     const postedReq = (type, requestbody, user_id, callback) => {
         console.log(requestbody);

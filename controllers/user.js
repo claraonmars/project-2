@@ -42,7 +42,7 @@ module.exports = (db) => {
     const loggedIn = (request, response) => {
         db.user.loggedIn(request.body, (error, queryResult) => {
             if (error) {
-                console.error('error getting user:', error);
+                console.error('error loggin user:', error);
                 response.sendStatus(500);
             }
             var hashedCookie = sha256(request.body.password);
@@ -106,7 +106,7 @@ module.exports = (db) => {
                 console.error('error checking this user:', error);
                 response.sendStatus(500);
             }
-            response.json(queryResult);
+            response.redirect('/');
         })
     }
 
@@ -156,7 +156,7 @@ module.exports = (db) => {
                 console.error('error removing this user reaction:', error);
                 response.sendStatus(500);
             }
-            response.json(queryResult);
+            response.redirect('/profile');
         })
     }
 
@@ -193,6 +193,17 @@ module.exports = (db) => {
         })
     }
 
+    const checkChat =(request, response) =>{
+        let currentUser = request.cookies['userId'];
+        db.user.checkChat(currentUser, (error, queryResult)=>{
+           if (error) {
+                console.error('error checking chat:', error);
+                response.sendStatus(500);
+            }
+            response.json(queryResult);
+        })
+    }
+
     return {
         loginForm,
         registerForm,
@@ -207,6 +218,7 @@ module.exports = (db) => {
         removeReaction,
         removeAccept,
         openChat,
-        startChat
+        startChat,
+        checkChat
     };
 }
