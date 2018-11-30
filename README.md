@@ -16,7 +16,7 @@ Get notified if a user wants to be their task buddy.
 
 -Javascript, Css
 
--Maps API, Ajax
+-Maps API, Distance matrix, Ajax
 
 
 ## Deliverables
@@ -31,3 +31,4 @@ Image uploader.
 
 Check for overbooking.
 
+Click on location for directions?
