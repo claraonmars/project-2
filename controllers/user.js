@@ -106,7 +106,7 @@ module.exports = (db) => {
                 console.error('error checking this user:', error);
                 response.sendStatus(500);
             }
-            response.redirect('/');
+            response.json(queryResult);
         })
     }
 
@@ -156,7 +156,7 @@ module.exports = (db) => {
                 console.error('error removing this user reaction:', error);
                 response.sendStatus(500);
             }
-            response.redirect('/profile');
+            response.json(queryResult);
         })
     }
 

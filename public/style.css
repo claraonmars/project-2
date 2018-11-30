@@ -325,7 +325,7 @@ padding: 0;
 	border: 1px solid black;
 	height:250px;
 	width:200px;
-	display:none;
+	display:block;
 	position:fixed;
 	bottom:0;
 	right:0;

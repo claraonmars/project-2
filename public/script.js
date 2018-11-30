@@ -3,10 +3,17 @@
 window.onload = function() {
 
     var socket = io.connect('http://localhost:3000');
-                  socket.on('news', function (data) {
-                    console.log(data);
-                    socket.emit('my other event', { my: 'data' });
-                  });
+
+    //socket sending
+    $('form').submit(function(){
+                socket.emit('sending', 'hello');
+                return false;
+             });
+
+    //socket receiver
+    socket.on('recieve', function(msg){
+              console.log('new messag!', msg)
+         });
 
 
     let currentuser = readCookie('userId');
@@ -23,10 +30,10 @@ window.onload = function() {
         addEventListener('click', openChatWindow);
     }
 
-    if (document.querySelector('#submitchatform')) {
-        document.querySelector('#submitchatform').
-        addEventListener('click', startChat);
-    }
+    // if (document.querySelector('#submitchatform')) {
+    //     document.querySelector('#submitchatform').
+    //     addEventListener('click', startChat);
+    // }
 
     if (document.querySelector('#loginLat')) {
         getLocation();
@@ -266,9 +273,9 @@ function startChat() {
     var ajaxUrl = "/user/chat?chatform=" + form + "&otheruser=" + otheruser;
 
     var responseHandler = function() {
-        console.log("response text", this.responseText);
-        console.log("status text", this.statusText);
-        console.log("status code", this.status);
+        // console.log("response text", this.responseText);
+        // console.log("status text", this.statusText);
+        // console.log("status code", this.status);
 
         var responseObj = JSON.parse(this.responseText);
         console.log(responseObj);
@@ -307,14 +314,14 @@ function accessDatabase() {
             var responseHandlerTwo = function() {
 
                 var responseObjTwo = JSON.parse(this.responseText);
-                console.log('isthisworking:',responseObjTwo)
+                //console.log('isthisworking:',responseObjTwo)
                 let numTwo = responseObjTwo.routes[0].duration;
 
                 var ajaxUrlThree = '/post/sort/loc?id=' + numOne + '&duration=' + numTwo;
 
                 var responseHandlerThree = function() {
                     var responseObjThree = JSON.parse(this.responseText);
-                    console.log('whatabouthtis:',responseObjThree)
+                    //console.log('whatabouthtis:',responseObjThree)
 
 
                 };

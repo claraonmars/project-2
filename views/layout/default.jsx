@@ -8,7 +8,10 @@ class DefaultLayout extends React.Component {
                 <title>{this.props.title}</title>
                 <link href="https://fonts.googleapis.com/css?family=Rubik:300,700" rel="stylesheet"></link>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></link>
-
+                <script
+                  src="https://code.jquery.com/jquery-3.3.1.js"
+                  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+                  crossorigin="anonymous"></script>
                 <link rel="stylesheet" href="/style.css"></link>
                 </head>
 
@@ -18,6 +21,9 @@ class DefaultLayout extends React.Component {
                 <a href="/">Taskbuddy</a>
                  <form method ='POST' action={this.props.loginURL}>
                  <input type= 'submit' value={this.props.login}/>
+                 </form>
+                 <form method ='GET' action='/user/chat'>
+                 <input type= 'submit' value='chat'/>
                  </form>
                 <div class='notification'></div>
                 </div>

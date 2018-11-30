@@ -28,6 +28,7 @@ class AllPosts extends React.Component {
             console.log('what this q',this.props.posts)
          posts = this.props.posts.map((post) => {
             let actionURL = '/user/accept/' + post.post_id;
+
             for (var i=0; i<this.props.schedule.length; i++){
                 if(this.props.schedule[i].post_id === post.post_id){
                     actionURL = '/user/remove/' +post.post_id + '?_method=DELETE'
@@ -36,6 +37,7 @@ class AllPosts extends React.Component {
             }
 
             let userURL = '/profile/' + post.user_id;
+
             return (
                 <div class='row request-item justify-content-center'>
 
@@ -50,7 +52,7 @@ class AllPosts extends React.Component {
                     </div>
 
                     <div class="col-4">
-                        <form method = 'POST' name='select_task' action ={actionURL}>
+                        <form method = 'POST' name='select_task' action = {actionURL}>
                             <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
                             <input type='submit' id= {post.post_id} class='selected' value='Become task buddy'/>
                         </form>

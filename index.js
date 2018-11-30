@@ -40,12 +40,24 @@ app.engine('jsx', reactEngine);
 // Import routes to match incoming requests
 require('./routes')(app, db);
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-    console.log('a user connected')
+//on socket connection
+io.on('connection', function(socket){
+  console.log('a user connected');
+
+//sending
+  socket.on('sending', function(data){
+        console.log(data);
+
+      //receiving
+        io.emit('recieve', data);
+
+      //if disconnect
+        if(data=="exit"){
+            socket.disconnect( console.log('sender disconnected'));
+        }
   });
+
+
 });
 
 // Root GET request (it doesn't belong in any controller file)

@@ -12,7 +12,7 @@ class Chat extends React.Component {
           <div class="chatbody"></div>
 
           <div class='text_input'>
-          <form method ='POST' action='/user/chat' id = 'form'>
+          <form class='chat_input' method ='POST' action='/user/chat' id = 'form'>
           <input name="input" type="text" id='chatform'/>
           <input type='submit' id ='submitchatform' />
           </form>
