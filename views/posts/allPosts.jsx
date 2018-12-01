@@ -25,7 +25,6 @@ class AllPosts extends React.Component {
         if (this.props.posts === undefined){
             posts= ''
         }else{
-            console.log('what this q',this.props.posts)
          posts = this.props.posts.map((post) => {
             let actionURL = '/user/accept/' + post.post_id;
 
@@ -62,7 +61,7 @@ class AllPosts extends React.Component {
         });
     }
         return (
-          <DefaultLayout title = "Taskbuddy" login={logout} loginURL={logoutURL}>
+          <DefaultLayout title = "Taskbuddy" login={logout} loginURL={logoutURL} profile={profileURL}>
 
             <div class="header_img">
                 <div className="copy">

@@ -22,10 +22,16 @@ class DefaultLayout extends React.Component {
                  <form method ='POST' action={this.props.loginURL}>
                  <input type= 'submit' value={this.props.login}/>
                  </form>
+
+                 <form method='GET' action={this.props.profile}>
+                <input type='submit' value ='Profile'/>
+                </form>
+
                  <form method ='GET' action='/user/chat'>
                  <input type= 'submit' value='chat'/>
                  </form>
-                <div class='notification'></div>
+                <div class='notification'>
+                </div>
                 </div>
                     {this.props.children}
                 </div>

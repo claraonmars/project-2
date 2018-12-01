@@ -1,5 +1,7 @@
 var React = require("react");
 var DefaultLayout = require('../layout/default');
+var Chat = require('../user/chat');
+
 
 class Profile extends React.Component {
     render() {
@@ -12,7 +14,7 @@ class Profile extends React.Component {
           logout = 'Logout'
           logoutURL = '/logout' + '?_method=DELETE';
           profile =' Profile'
-          profileURL = '/user'
+          profileURL = '/profile'
         }
 
         const requests = this.props.requests.map((requests) => {
@@ -41,6 +43,10 @@ class Profile extends React.Component {
                 {accepted.details} at {accepted.locname} at {accepted.selectedtime}
                 <br/>
 
+                <form>
+                <input class='chat' type ='submit' value='chat' name={accepted.user_id}/>
+                </form>
+
                 <form method ='POST' action = {deleteURL}>
                 <input type ='submit' value='Remove'/>
                 </form>
@@ -48,25 +54,8 @@ class Profile extends React.Component {
         });
 
         return (
-          <DefaultLayout title = "Taskbuddy" >
+          <DefaultLayout title = "Taskbuddy" login={logout} loginURL={logoutURL} profile={profileURL} >
 
-            <div class='topbar'>
-            <form method ='POST' action={logoutURL}>
-            <input type= 'submit' value={logout}/>
-            </form>
-
-            <form method='GET' action={profileURL}>
-            <input type='submit' value ={profile}/>
-            </form>
-
-            <form method ='GET' action ='/user/notification'>
-            <input type='submit' value ='Alerts'/>
-            </form>
-
-            <form method ='GET' action ='/'>
-            <input type='submit' value ='Home'/>
-            </form>
-            </div>
             <article>
 
             <div class='header'>
@@ -87,6 +76,9 @@ class Profile extends React.Component {
 
 
             </article>
+
+            <Chat />
+
             </DefaultLayout>
         );
     }

@@ -54,6 +54,7 @@ io.on('connection', function(socket){
   var req =socket.request;
   let cookies = socket.request.cookies;
 console.log(cookies);
+
 //sending
 socket.on('login_register', function(data){
     const user=data.user;
@@ -71,12 +72,29 @@ socket.on('login_register', function(data){
     });
 })
 
-socket.on('chat', function(data){
-    if(data.id === cookies.userId){
-     io.emit('recieve', data);
-    }
+// get chat history
+socket.on('thisuser', function(data){
+
+    let queryString = 'SELECT * FROM chat WHERE currentuser_id ='  + cookies.userId + 'AND otheruser_id =' + data.id;
+
+    db.pool.query(queryString, (error, queryResult) => {
+        if(error){
+            console.log('error')
+        }
+        else{
+            io.emit('chat_history', queryResult);
+        }
+    });
 
 })
+
+// testing socket
+// socket.on('chat', function(data){
+//     if(data.id === cookies.userId){
+//      io.emit('recieve', data);
+//     }
+//})
+
   // socket.on('sending', function(data){
   //       console.log(data);
 

@@ -2,33 +2,65 @@
 
 window.onload = function() {
 
+    // socket setup
     var socket = io.connect('http://localhost:3000');
     var userid
     //var socket = io('http://localhost:3000')
+
+    // socket auth
     $("#login_soc").click(function(){
       socket.emit("login_register", {
-      user: $("#username").val(),
-      pass: $("#password").val()
+          user: $("#username").val(),
+          pass: $("#password").val()
+          });
       });
-      });
-
     socket.on("logged_in", function(name){
       userid = name.user_id;
     });
 
-    //login
-    //socket.emit('login',{username:'abc', password: 'abc'})
+
+    //Show chat box on click
+    $(".chat").click(function(){
+        document.querySelector('.chatbody').innerText = '';
+
+        var hasFocus = $('.chat').is(':focus');
+
+            if(hasFocus){
+                document.querySelector('.chatbox').style.display="block";
+                var otherUserId = this.name;
+                socket.emit('thisuser', {id: otherUserId});
+
+                socket.once('chat_history', function(msg){
+                    for (var i = 0; i < msg.rows.length; i++){
+                        var newdiv = document.createElement("p");
+                        newdiv.innerText = msg.rows[i].chat
+                        document.querySelector('.chatbody').appendChild(newdiv);
+
+
+                    }
+
+                });
+            }
+
+            else{
+
+            }
+      return false;
+      });
+
 
     //socket sending
-    $('#submitchatform').click(function(){
-                socket.emit('chat', {id: readCookie('userId'), message:'hello'});
-                return false;
-             });
+    // $('#submitchatform').click(function(){
+    //     socket.emit('chat', {id: readCookie('userId'), message:'hello'});
 
-    //socket receiver
-    socket.on('recieve', function(msg){
-              console.log('new messag!', msg)
-         });
+    //     return false;
+    // });
+
+    // //socket receiver
+    // socket.on('recieve', function(msg){
+    //           console.log('new messag!', msg)
+    //      });
+
 
 
     let currentuser = readCookie('userId');
@@ -234,82 +266,82 @@ function checkNotifications() {
     request.send();
 }
 
-function openChatWindow() {
-    document.querySelector('.chatbox').setAttribute("style", "display: block;");
+// function openChatWindow() {
+//     document.querySelector('.chatbox').setAttribute("style", "display: block;");
 
-    openChat();
-}
+//     openChat();
+// }
 
 let otheruser;
 
-function openChat() {
-    event.preventDefault();
+// function openChat() {
+//     event.preventDefault();
 
-    let currentuser = 'user_'+readCookie('userId');
+//     let currentuser = 'user_'+readCookie('userId');
 
-    otheruser = document.getElementById(currentuser).value;
+//     otheruser = document.getElementById(currentuser).value;
 
-    var ajaxUrl = '/user/chat/' + otheruser;
+//     var ajaxUrl = '/user/chat/' + otheruser;
 
-    var responseHandler = function() {
-        //console.log("response text", this.responseText);
-        //console.log("status text", this.statusText);
-        //console.log("status code", this.status);
+//     var responseHandler = function() {
+//         //console.log("response text", this.responseText);
+//         //console.log("status text", this.statusText);
+//         //console.log("status code", this.status);
 
-        var responseObj = JSON.parse(this.responseText);
-        console.log('needtoseethis:', responseObj);
+//         var responseObj = JSON.parse(this.responseText);
+//         console.log('needtoseethis:', responseObj);
 
-        //append any existing chat
+//         //append any existing chat
 
-        for (var i = 0; i < responseObj.rows.length; i++) {
-            var messagebox = document.createElement('p');
-            messagebox.innerText = responseObj.rows[i].username +' : '+ responseObj.rows[i].chat;
-            document.querySelector('.chatbody').appendChild(messagebox);
-        }
+//         for (var i = 0; i < responseObj.rows.length; i++) {
+//             var messagebox = document.createElement('p');
+//             messagebox.innerText = responseObj.rows[i].username +' : '+ responseObj.rows[i].chat;
+//             document.querySelector('.chatbody').appendChild(messagebox);
+//         }
 
-        document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+//         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
 
-    };
-    var request = new XMLHttpRequest();
+//     };
+//     var request = new XMLHttpRequest();
 
-    request.addEventListener("load", responseHandler);
+//     request.addEventListener("load", responseHandler);
 
-    request.open("GET", ajaxUrl);
+//     request.open("GET", ajaxUrl);
 
-    request.send();
-}
+//     request.send();
+// }
 
-function startChat() {
-    event.preventDefault();
-    let currentuser = 'user_'+readCookie('userId');
-
-
-    var form = document.getElementById("chatform").value;
-    var ajaxUrl = "/user/chat?chatform=" + form + "&otheruser=" + otheruser;
-
-    var responseHandler = function() {
-        // console.log("response text", this.responseText);
-        // console.log("status text", this.statusText);
-        // console.log("status code", this.status);
-
-        var responseObj = JSON.parse(this.responseText);
-        console.log(responseObj);
+// function startChat() {
+//     event.preventDefault();
+//     let currentuser = 'user_'+readCookie('userId');
 
 
+//     var form = document.getElementById("chatform").value;
+//     var ajaxUrl = "/user/chat?chatform=" + form + "&otheruser=" + otheruser;
 
-        var rowsNum = parseInt(responseObj.rows.length - 1);
+//     var responseHandler = function() {
+//         // console.log("response text", this.responseText);
+//         // console.log("status text", this.statusText);
+//         // console.log("status code", this.status);
 
-        var messagebox = document.createElement('p');
-        messagebox.innerText = responseObj.rows[rowsNum].username +' : ' +responseObj.rows[rowsNum].chat;
-        document.querySelector('.chatbody').appendChild(messagebox);
-        document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+//         var responseObj = JSON.parse(this.responseText);
+//         console.log(responseObj);
 
-    };
-    var request = new XMLHttpRequest();
-    request.addEventListener("load", responseHandler);
-    request.open("GET", ajaxUrl);
-    request.send();
-}
+
+
+//         var rowsNum = parseInt(responseObj.rows.length - 1);
+
+//         var messagebox = document.createElement('p');
+//         messagebox.innerText = responseObj.rows[rowsNum].username +' : ' +responseObj.rows[rowsNum].chat;
+//         document.querySelector('.chatbody').appendChild(messagebox);
+//         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
+
+//     };
+//     var request = new XMLHttpRequest();
+//     request.addEventListener("load", responseHandler);
+//     request.open("GET", ajaxUrl);
+//     request.send();
+// }
 
 function accessDatabase() {
     let currentuserLat = readCookie('latitude');

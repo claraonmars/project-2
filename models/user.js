@@ -48,10 +48,10 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
-    const indProfile = (cookies, callback)=>{
-        let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE users.id = ' + cookies.userId + 'ORDER BY selectedtime ASC';
+    const indProfile = (params, callback)=>{
+        let queryString = 'SELECT * FROM users WHERE id=' + params;
         dbPoolInstance.query(queryString, (error, queryResult) =>{
-            let secondQueryString = 'SELECT * FROM schedule INNER JOIN posts ON (schedule.post_id = posts.post_id) INNER JOIN users ON (users.id = posts.user_id) WHERE schedule.user_id =' + cookies.userId + 'ORDER BY selectedtime ASC';
+            let secondQueryString = 'SELECT * FROM posts WHERE user_id=' + params + 'ORDER BY selectedtime ASC';
             dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
             callback(error, queryResult, secondQueryResult);
             })

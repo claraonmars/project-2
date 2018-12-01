@@ -71,7 +71,7 @@ module.exports = (db) => {
         response.clearCookie('name');
         response.clearCookie('latitude');
         response.clearCookie('longitude');
-        response.redirect('/login');
+        response.redirect('/');
 
     }
 
@@ -100,10 +100,10 @@ module.exports = (db) => {
                     name: request.cookies['name']
                 }
         if (cookies.status === 'loggedIn'){
-        db.user.profile(cookies, (error, queryResult, secondQueryResult)=>{
-            console.log(secondQueryResult)
-        response.render('user/profile', {cookies:cookies, requests: queryResult.rows, accepted: secondQueryResult.rows})
-    });}
+        db.user.indProfile(request.params.id, (error, queryResult, secondQueryResult)=>{
+        response.render('user/indProfile', {cookies:cookies, user: queryResult.rows, requests: secondQueryResult.rows})
+        });
+    }
         else{
             response.redirect('/');
         }
