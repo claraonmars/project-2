@@ -44,7 +44,7 @@ class Profile extends React.Component {
                 <br/>
 
                 <form>
-                <input class='chat' type ='submit' value='chat' name={accepted.user_id}/>
+                <input class='chat' type='submit' value='chat' name={accepted.user_id}/>
                 </form>
 
                 <form method ='POST' action = {deleteURL}>

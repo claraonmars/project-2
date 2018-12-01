@@ -26,40 +26,60 @@ window.onload = function() {
         var hasFocus = $('.chat').is(':focus');
 
             if(hasFocus){
+
                 document.querySelector('.chatbox').style.display="block";
+
                 var otherUserId = this.name;
+
+                //send socket info on who i am talking to
                 socket.emit('thisuser', {id: otherUserId});
 
-                socket.once('chat_history', function(msg){
-                    for (var i = 0; i < msg.rows.length; i++){
+
+                //receive socket chat history
+                socket.once('chat_history', function(mymsg){
+
+                    for (var i = 0; i < mymsg.rows.length; i++){
+
+                        //messages from me
+                        if (mymsg.rows[i].otheruser_id === parseInt(otherUserId)){
                         var newdiv = document.createElement("p");
-                        newdiv.innerText = msg.rows[i].chat
+                        newdiv.classList.add("text_right");
+                        newdiv.innerText =  mymsg.rows[i].chat
                         document.querySelector('.chatbody').appendChild(newdiv);
+                                        updateScroll();
 
+                        }
+                        //messages from other user
+                        else{
+                        var newdiv = document.createElement("p");
+                        newdiv.classList.add("text_left");
+                        newdiv.innerText =  mymsg.rows[i].chat
+                        document.querySelector('.chatbody').appendChild(newdiv);
+                                        updateScroll();
 
+                        }
                     }
 
                 });
             }
 
-            else{
-
-            }
+            //Send message on click
+                $('#submitchatform').click(function(){
+                    var chat_input = document.querySelector('#chatform').value;
+                    socket.emit('chat', {userid: readCookie('userId'), otheruser: otherUserId, message:chat_input});
+                    document.querySelector('#chatform').value = '';
+                    return false;
+                });
+                socket.on('recieve', function(msg){
+                        var newdiv = document.createElement("p");
+                        newdiv.classList.add("text_right");
+                        newdiv.innerText =  msg.message;
+                        document.querySelector('.chatbody').appendChild(newdiv);
+                        updateScroll();
+                    });
       return false;
       });
 
-
-    //socket sending
-    // $('#submitchatform').click(function(){
-    //     socket.emit('chat', {id: readCookie('userId'), message:'hello'});
-
-    //     return false;
-    // });
-
-    // //socket receiver
-    // socket.on('recieve', function(msg){
-    //           console.log('new messag!', msg)
-    //      });
 
 
 
@@ -103,6 +123,11 @@ window.onload = function() {
     }
 
 };
+
+function updateScroll(){
+    var element = document.querySelector(".chatbody");
+    element.scrollTop = element.scrollHeight;
+}
 
 
 function getLocation() {
@@ -266,82 +291,6 @@ function checkNotifications() {
     request.send();
 }
 
-// function openChatWindow() {
-//     document.querySelector('.chatbox').setAttribute("style", "display: block;");
-
-//     openChat();
-// }
-
-let otheruser;
-
-// function openChat() {
-//     event.preventDefault();
-
-//     let currentuser = 'user_'+readCookie('userId');
-
-//     otheruser = document.getElementById(currentuser).value;
-
-//     var ajaxUrl = '/user/chat/' + otheruser;
-
-//     var responseHandler = function() {
-//         //console.log("response text", this.responseText);
-//         //console.log("status text", this.statusText);
-//         //console.log("status code", this.status);
-
-//         var responseObj = JSON.parse(this.responseText);
-//         console.log('needtoseethis:', responseObj);
-
-//         //append any existing chat
-
-//         for (var i = 0; i < responseObj.rows.length; i++) {
-//             var messagebox = document.createElement('p');
-//             messagebox.innerText = responseObj.rows[i].username +' : '+ responseObj.rows[i].chat;
-//             document.querySelector('.chatbody').appendChild(messagebox);
-//         }
-
-//         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
-
-//     };
-//     var request = new XMLHttpRequest();
-
-//     request.addEventListener("load", responseHandler);
-
-//     request.open("GET", ajaxUrl);
-
-//     request.send();
-// }
-
-// function startChat() {
-//     event.preventDefault();
-//     let currentuser = 'user_'+readCookie('userId');
-
-
-//     var form = document.getElementById("chatform").value;
-//     var ajaxUrl = "/user/chat?chatform=" + form + "&otheruser=" + otheruser;
-
-//     var responseHandler = function() {
-//         // console.log("response text", this.responseText);
-//         // console.log("status text", this.statusText);
-//         // console.log("status code", this.status);
-
-//         var responseObj = JSON.parse(this.responseText);
-//         console.log(responseObj);
-
-
-
-//         var rowsNum = parseInt(responseObj.rows.length - 1);
-
-//         var messagebox = document.createElement('p');
-//         messagebox.innerText = responseObj.rows[rowsNum].username +' : ' +responseObj.rows[rowsNum].chat;
-//         document.querySelector('.chatbody').appendChild(messagebox);
-//         document.querySelector('.chatbody').scrollTop = document.querySelector('.chatbody').scrollHeight;
-
-//     };
-//     var request = new XMLHttpRequest();
-//     request.addEventListener("load", responseHandler);
-//     request.open("GET", ajaxUrl);
-//     request.send();
-// }
 
 function accessDatabase() {
     let currentuserLat = readCookie('latitude');

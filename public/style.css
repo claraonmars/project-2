@@ -342,7 +342,7 @@ padding: 0;
 .chatbody{
 	width:185px;
 	height:150px;
-	overflow-x: scroll;
+	overflow: scroll;
 	object-fit: contain;
 	margin: 0 auto;
 }
@@ -358,6 +358,10 @@ padding: 0;
 	height:35px;
 }*/
 
+
+.text_right{
+	text-align: right;
+}
 
 a{
 	color:#EEBE48;

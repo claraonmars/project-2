@@ -72,14 +72,14 @@ socket.on('login_register', function(data){
     });
 })
 
-// get chat history
+// get chat history with user i'm talking to
 socket.on('thisuser', function(data){
 
-    let queryString = 'SELECT * FROM chat WHERE currentuser_id ='  + cookies.userId + 'AND otheruser_id =' + data.id;
+    let queryString = 'SELECT * FROM chat WHERE (currentuser_id ='  + cookies.userId + ' AND otheruser_id =' + data.id + ') OR (currentuser_id ='  + data.id + ' AND otheruser_id =' + cookies.userId + ')';
 
     db.pool.query(queryString, (error, queryResult) => {
         if(error){
-            console.log('error')
+            console.log(error)
         }
         else{
             io.emit('chat_history', queryResult);
@@ -88,12 +88,26 @@ socket.on('thisuser', function(data){
 
 })
 
-// testing socket
-// socket.on('chat', function(data){
-//     if(data.id === cookies.userId){
-//      io.emit('recieve', data);
-//     }
-//})
+// receiving chat input
+socket.on('chat', function(data){
+    console.log(data.userid)
+
+    if(data.userid === cookies.userId){
+        let queryString = 'INSERT INTO chat (currentuser_id, otheruser_id, chat, poster_id) VALUES ($1, $2, $3, $4)';
+        let values =[data.userid, data.otheruser, data.message, data.userid];
+
+        db.pool.query(queryString, values, (error, queryResult) => {
+            if(error){
+                console.log(error)
+            }
+            else{
+                io.emit('recieve', data);
+            }
+        });
+
+    }
+
+})
 
   // socket.on('sending', function(data){
   //       console.log(data);
