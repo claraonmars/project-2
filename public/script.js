@@ -3,10 +3,25 @@
 window.onload = function() {
 
     var socket = io.connect('http://localhost:3000');
+    var userid
+    //var socket = io('http://localhost:3000')
+    $("#login_soc").click(function(){
+      socket.emit("login_register", {
+      user: $("#username").val(),
+      pass: $("#password").val()
+      });
+      });
+
+    socket.on("logged_in", function(name){
+      userid = name.user_id;
+    });
+
+    //login
+    //socket.emit('login',{username:'abc', password: 'abc'})
 
     //socket sending
-    $('form').submit(function(){
-                socket.emit('sending', 'hello');
+    $('#submitchatform').click(function(){
+                socket.emit('chat', {id: readCookie('userId'), message:'hello'});
                 return false;
              });
 

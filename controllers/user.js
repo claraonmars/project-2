@@ -92,6 +92,23 @@ module.exports = (db) => {
         }
     }
 
+    const indProfile = (request, response) =>{
+        let cookies = {
+                    status: request.cookies['status'],
+                    userId: request.cookies['userId'],
+                    userName: request.cookies['userName'],
+                    name: request.cookies['name']
+                }
+        if (cookies.status === 'loggedIn'){
+        db.user.profile(cookies, (error, queryResult, secondQueryResult)=>{
+            console.log(secondQueryResult)
+        response.render('user/profile', {cookies:cookies, requests: queryResult.rows, accepted: secondQueryResult.rows})
+    });}
+        else{
+            response.redirect('/');
+        }
+    }
+
     const addReaction = (request, response) => {
         console.log('this:',request.params.id)
         let cookies = {
@@ -211,6 +228,7 @@ module.exports = (db) => {
         loggedIn,
         logout,
         profile,
+        indProfile,
         addReaction,
         checkReaction,
         checkNotification,

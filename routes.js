@@ -17,7 +17,7 @@ module.exports = (app, db) => {
 
 
   app.get('/profile', user.profile);
-  //app.get('/profile/:id', user.indProfile);
+  app.get('/profile/:id', user.indProfile);
   //app.post('/user/react/:id', user.reactTo);
 
   app.get('/login', user.loginForm);

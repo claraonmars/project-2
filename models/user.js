@@ -48,6 +48,16 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
+    const indProfile = (cookies, callback)=>{
+        let queryString = 'SELECT * FROM posts INNER JOIN users ON (users.id = posts.user_id) WHERE users.id = ' + cookies.userId + 'ORDER BY selectedtime ASC';
+        dbPoolInstance.query(queryString, (error, queryResult) =>{
+            let secondQueryString = 'SELECT * FROM schedule INNER JOIN posts ON (schedule.post_id = posts.post_id) INNER JOIN users ON (users.id = posts.user_id) WHERE schedule.user_id =' + cookies.userId + 'ORDER BY selectedtime ASC';
+            dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
+            callback(error, queryResult, secondQueryResult);
+            })
+        })
+    }
+
     const addReaction = (cookies, requestBody, callback) =>{
         let queryString = 'INSERT INTO schedule (user_id, post_id, accept_time) VALUES ($1,$2,CURRENT_TIMESTAMP)';
         let values = [
@@ -131,6 +141,7 @@ module.exports = (dbPoolInstance) => {
         loggedIn,
         create,
         profile,
+        indProfile,
         addReaction,
         checkReaction,
         checkNotification,

@@ -13,12 +13,12 @@ class LoginForm extends React.Component {
                 <div class="form">
                   <form method ='POST' action='/login/success'>
                   <p>Username:</p>
-                  <input name='username' type='text'/><br/>
+                  <input id='username' name='username' type='text'/><br/>
                   <p>Password:</p>
-                  <input name="password" type="text" /><br/>
+                  <input id='password'name="password" type="text" /><br/>
                   <input type='hidden' name='lat' id='loginLat'/>
                   <input type='hidden' name='long' id='loginLong'/><br/>
-                  <input type='submit' name ='Login' value='Login' />
+                  <input id='login_soc' type='submit' name ='Login' value='Login' />
                   </form>
 
                   <form method='GET' action ='/register'>
