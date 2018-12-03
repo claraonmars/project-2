@@ -112,30 +112,6 @@ module.exports = (dbPoolInstance) => {
         })
     }
 
-    const openChat = (currentUser, otherUser, callback) =>{
-            let secondQueryString ='SELECT * FROM chat INNER JOIN users ON (chat.poster_id = users.id) WHERE currentuser_id = ' + currentUser + 'AND otheruser_id = ' + otherUser ;
-            dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
-            callback(error, secondQueryResult);
-            })
-    }
-
-    const startChat = (currentUser, requestBody, callback) =>{
-        let queryString = 'INSERT INTO chat (currentuser_id, otheruser_id, chat, poster_id) VALUES ($1, $2, $3, $4)';
-        let values =[currentUser, requestBody.otheruser, requestBody.chatform, currentUser];
-        dbPoolInstance.query(queryString, values,(error, queryResult) =>{
-        let secondQueryString ='SELECT * FROM chat INNER JOIN users ON (chat.poster_id = users.id)';
-            dbPoolInstance.query(secondQueryString, (error, secondQueryResult) =>{
-            callback(error, secondQueryResult);
-            })
-        })
-    }
-
-    const checkChat = (currentuser, callback) =>{
-        let queryString = 'SELECT * FROM chat WHERE otheruser_id = ' + currentuser +'AND readby = FALSE';
-        dbPoolInstance.query(queryString, (error, queryResult) =>{
-            callback(error, queryResult);
-            })
-    }
 
     return {
         loggedIn,
@@ -147,9 +123,7 @@ module.exports = (dbPoolInstance) => {
         checkNotification,
         viewNotification,
         removeReaction,
-        removeAccept,
-        openChat,
-        startChat,
-        checkChat
+        removeAccept
+
     };
 }

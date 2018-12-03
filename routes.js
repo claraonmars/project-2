@@ -42,12 +42,12 @@ module.exports = (app, db) => {
   app.post('/user/accept/:id', user.addReaction);
   app.get('/user/checkreaction', user.checkReaction);
   app.get('/user/checknotification', user.checkNotification);
-  app.get('/user/chat', user.startChat);// update chat table
-  app.get('/user/chat/:id', user.openChat); // create temp chat table
+  //app.get('/user/chat', user.startChat);// update chat table
+  //app.get('/user/chat/:id', user.openChat); // create temp chat table
 
   app.get('/post/sort/db', posts.sortDb);
   app.get('/post/sort/loc', posts.sortLoc);
 
-  app.get('/user/checkchat', user.checkChat);
+  //app.get('/user/checkchat', user.checkChat);
 
 };

@@ -187,40 +187,6 @@ module.exports = (db) => {
         })
     }
 
-    const openChat = (request, response)=>{
-        let currentUser = request.cookies['userId'];
-        let otherUser = request.params.id;
-        db.user.openChat(currentUser, otherUser, (error, queryResult)=>{
-           if (error) {
-                console.error('error opening chat:', error);
-                response.sendStatus(500);
-            }
-            response.json(queryResult);
-        })
-    }
-
-    const startChat= (request, response) =>{
-        let currentUser = request.cookies['userId'];
-        db.user.startChat(currentUser, request.query, (error, queryResult)=>{
-           if (error) {
-                console.error('error opening chat:', error);
-                response.sendStatus(500);
-            }
-            response.json(queryResult);
-        })
-    }
-
-    const checkChat =(request, response) =>{
-        let currentUser = request.cookies['userId'];
-        db.user.checkChat(currentUser, (error, queryResult)=>{
-           if (error) {
-                console.error('error checking chat:', error);
-                response.sendStatus(500);
-            }
-            response.json(queryResult);
-        })
-    }
-
     return {
         loginForm,
         registerForm,
@@ -234,9 +200,6 @@ module.exports = (db) => {
         checkNotification,
         viewNotification,
         removeReaction,
-        removeAccept,
-        openChat,
-        startChat,
-        checkChat
+        removeAccept
     };
 }

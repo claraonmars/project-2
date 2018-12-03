@@ -362,34 +362,6 @@ function saveLocation() {
     });
 }
 
-function checkChat() {
-    let currentuser = 'user_'+readCookie('userId');
-
-    var ajaxUrl = '/user/checkchat';
-
-    var responseHandler = function() {
-        //console.log("response text", this.responseText);
-        //console.log("status text", this.statusText);
-        //console.log("status code", this.status);
-
-        var responseObj = JSON.parse(this.responseText);
-
-        if (responseObj.rowCount >= 1){
-        document.querySelector('.chatbox').setAttribute("style", "display: block;");
-
-        //openChat();
-        }
-
-    };
-    var request = new XMLHttpRequest();
-
-    request.addEventListener("load", responseHandler);
-
-    request.open("GET", ajaxUrl);
-
-    request.send();
-
-}
 
 
 
