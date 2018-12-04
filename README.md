@@ -1,4 +1,6 @@
 # Project-2
+![picture alt](Taskbuddy.png)
+
 TaskBuddy is an app targeted at people who might need companionship in completing mundane tasks.
 
 ## App functionalities
