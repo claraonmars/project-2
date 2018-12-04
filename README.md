@@ -13,8 +13,8 @@ TaskBuddy is an app targeted at people who might need companionship in completin
 
 ## Get started
 
-`git clone
-node index.js`
+`git clone`
+`node index.js`
 
 
 ## Technical Considerations
