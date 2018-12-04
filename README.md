@@ -20,9 +20,11 @@ node index.js
 
 
 ## Technical Considerations
-* MVC, Express, React, hashing
+* MVC, Express, React
 
 * Javascript, CSS
+
+* Postgresql, js-sha256
 
 * Maps API, Distance matrix, Ajax
 
@@ -33,10 +35,12 @@ Working app is hosted [here](https://taskbuddy-project2.herokuapp.com/)
 ## Unresolved issues
 [x] Chat with other users
 
-[ ] Ajax calls work but redirect wrongly.
+[x] Ajax calls work but redirect wrongly.
 
 [ ] Image uploader.
 
 [ ] Check for overbooking.
 
-[ ] Click on location for directions?
+[ ] Click on location for directions.
+
+[ ] Optimize for mobile

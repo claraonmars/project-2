@@ -12,7 +12,7 @@ class Profile extends React.Component {
           logout = 'Logout'
           logoutURL = '/logout' + '?_method=DELETE';
           profile =' Profile'
-          profileURL = '/user'
+          profileURL = '/profile'
         }
         else{
             logout='Login'
@@ -32,11 +32,18 @@ class Profile extends React.Component {
 
         return (
           <DefaultLayout title = "Taskbuddy" login={logout} loginURL={logoutURL} profile={profileURL} >
-            <div className="article">
-            user: {userinfo.username}<br/>
-            name: {userinfo.firstname}<br/>
-            Looking for a buddy:<br/>
-            {requests}
+
+            <div class="header row justify-content-center">
+                <div class='col-8 borderline'>
+                    {userinfo.username}<br/><br/>
+                    <div class="profile">
+                    </div>
+
+                    <div class='request'>
+                    Looking for buddies:
+                    </div>
+                    {requests}
+                </div>
             </div>
             </DefaultLayout>
         );

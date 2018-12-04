@@ -3,8 +3,9 @@
 window.onload = function() {
 
     // socket setup
-    var socket = io.connect('http://localhost:3000');
+    var socket = io();
     var userid
+
     //var socket = io('http://localhost:3000')
 
     // socket auth

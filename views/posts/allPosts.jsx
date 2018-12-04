@@ -38,7 +38,7 @@ class AllPosts extends React.Component {
             let userURL = '/profile/' + post.user_id;
 
             return (
-                <div class='row request-item justify-content-center'>
+                <div class='row request-item justify-content-center borderline'>
 
                     <div class="col-6">
                         Location: {post.locname}<br/>

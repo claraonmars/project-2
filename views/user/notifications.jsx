@@ -1,6 +1,6 @@
 var React = require("react");
 var DefaultLayout = require('../layout/default');
-var Chat = require('./chat');
+var Chat = require('../user/chat');
 
 class Notifications extends React.Component {
     render() {
@@ -23,32 +23,21 @@ class Notifications extends React.Component {
                 <div class='request'>
                 {notification.username} wants to be your {notification.category} buddy at {notification.locname} at {notification.selectedtime}
                 <br/>
-                <button id ={idURL} value={valueURL}> chat with {notification.username}</button>
+                <form class='formcheck'>
+                <input class='chat' type='submit' value='Chat' name={notification.user_id}/>
+                </form>
 
                 </div>
                 );
         });
 
         return (
-          <DefaultLayout title = "Taskbuddy" >
-          <div class='topbar'>
-            <form method ='POST' action={logoutURL}>
-            <input type= 'submit' value={logout}/>
-            </form>
-
-            <form method='GET' action={profileURL}>
-            <input type='submit' value ={profile}/>
-            </form>
-
-            <form method ='GET' action ='/user/notification'>
-            <input type='submit' value ='Alerts'/>
-            </form>
-
-            <form method ='GET' action ='/'>
-            <input type='submit' value ='Home'/>
-            </form>
+          <DefaultLayout title = "Taskbuddy" login={logout} loginURL={logoutURL} profile={profileURL} >
+          <div class="header row justify-content-center">
+            <div class='col-8 borderline'>
+            {notifications}
             </div>
-          {notifications}
+        </div>
 
           <Chat />
             </DefaultLayout>

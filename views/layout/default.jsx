@@ -19,19 +19,22 @@ class DefaultLayout extends React.Component {
                 <div class="container">
                 <div className="navbar">
                 <a href="/">Taskbuddy</a>
-                 <form method ='POST' action={this.props.loginURL}>
-                 <input type= 'submit' value={this.props.login}/>
-                 </form>
+                <div class="d-flex justify-content-end">
+                    <input type='submit' value ='Notification'/>
+                    <div class='notification'>
+                    </div>
 
-                 <form method='GET' action={this.props.profile}>
-                <input type='submit' value ='Profile'/>
-                </form>
+                     <form method='GET' action={this.props.profile}>
+                    <input type='submit' value ='Profile'/>
+                    </form>
 
-                 <form method ='GET' action='/user/chat'>
-                 <input type= 'submit' value='chat'/>
-                 </form>
-                <div class='notification'>
+                     <form method ='POST' action={this.props.loginURL}>
+                     <input type= 'submit' value={this.props.login}/>
+                     </form>
+
                 </div>
+
+
                 </div>
                     {this.props.children}
                 </div>

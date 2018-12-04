@@ -7,14 +7,14 @@ class Chat extends React.Component {
 
         return (
           <div class= 'chatbox'>
-          <div class ='chatheader'> - </div>
+          <div class ='chatheader'>{this.props.username}</div>
 
           <div class="chatbody"></div>
 
           <div class='text_input'>
           <form class='chat_input' method ='POST' action='/user/chat' id = 'form'>
           <input name="input" type="text" id='chatform'/>
-          <input type='submit' id ='submitchatform' />
+          <input type='submit' id ='submitchatform' value='<'/>
           </form>
 
           </div>

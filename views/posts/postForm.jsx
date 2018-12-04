@@ -60,50 +60,39 @@ class postForm extends React.Component {
 
 
     return (
-        <DefaultLayout title="Login">
-            <div class='topbar'>
-            <form method ='POST' action={logoutURL}>
-            <input type= 'submit' value={logout}/>
-            </form>
+        <DefaultLayout title="Login" login={logout} loginURL={logoutURL} profile={profileURL} >
 
-            <form method='GET' action={profileURL}>
-            <input type='submit' value ={profile}/>
-            </form>
+            <div class = "row header justify-content-center ">
+                    <div class='postform borderline'>
+                    <form method='POST' action ={actionURL}>
+                    I am looking for a {this.props.type} buddy!<br/><br/>
 
-            <form method ='GET' action ='/user/notification'>
-            <input type='submit' value ='Alerts'/>
-            </form>
+                    <div class='formcheck'>
+                    <p>Location:</p>
+                    <input id="location" type="text" size="50" placeholder="Enter a location" autocomplete="on" runat="server" />
+                    <input type="hidden" id="city2" name="locName" />
+                    <input type="hidden" id="cityLat" name="locLat" />
+                    <input type="hidden" id="cityLng" name="locLong" />
+                    </div>
 
-            <form method ='GET' action ='/'>
-            <input type='submit' value ='Home'/>
-            </form>
+                    <div class='formcheck shift'>
+                    <p>Time:</p>
+                    <select name="time">
+                    <option></option>
+                    {timelist}
+                    </select>
+                    </div>
+                    <br /><br />
+
+                    <p>Give a short description of your task:</p>
+                    <div class='description'>
+                    <input type='text' maxlength="150" name="details"/>
+                    </div>
+                    <br /><br />
+                    <input type='submit' name='submit'/>
+                    </form>
+                    </div>
             </div>
-
-            <article>
-            <div class='postform'>
-            <form method='POST' action ={actionURL}>
-            I am looking for a {this.props.type} buddy!<br/><br/>
-
-            Location:
-            <input id="location" type="text" size="50" placeholder="Enter a location" autocomplete="on" runat="server" />
-            <input type="hidden" id="city2" name="locName" />
-            <input type="hidden" id="cityLat" name="locLat" />
-            <input type="hidden" id="cityLng" name="locLong" />
-            <br/>
-            <br/>
-            Time:
-            <select name="time">
-            <option></option>
-            {timelist}
-            </select><br /><br />
-
-            Details:
-            <input type='text' maxlength="150" name="details"/>
-            <br /><br />
-            <input type='submit' name='submit'/>
-            </form>
-            </div>
-            </article>
         </DefaultLayout>
     );
   }
