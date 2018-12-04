@@ -2,31 +2,33 @@
 TaskBuddy is an app targeted at people who might need companionship in completing mundane tasks.
 
 ## App functionalities
-Create account and create/edit/delete taskbuddy requests.
+* Create account and create/edit/delete taskbuddy requests.
 
-View others' request according to distance to the user.
+* View others' request according to distance to the user.
 
-Accept to be others' task buddy/ chat with user/ view their profile.
+* Accept to be others' task buddy/ chat with user/ view their profile.
 
-Get notified if a user wants to be their task buddy.
+* Get notified if a user wants to be their task buddy.
 
 
 ## Technical Considerations
--MVC, Express, React, hashing
+* MVC, Express, React, hashing
 
--Javascript, Css
+* Javascript, Css
 
--Maps API, Distance matrix, Ajax
+* Maps API, Distance matrix, Ajax
 
 
 ## Deliverables
-Working app is hosted at https://taskbuddy-project2.herokuapp.com/
+Working app is hosted [here](https://taskbuddy-project2.herokuapp.com/)
 
 ## Unresolved issues
-Ajax calls work but redirect wrongly.
+-[x] Chat with other users
 
-Image uploader.
+-[ ] Ajax calls work but redirect wrongly.
 
-Check for overbooking.
+-[ ] Image uploader.
 
-Click on location for directions?
+-[ ] Check for overbooking.
+
+-[ ] Click on location for directions?
