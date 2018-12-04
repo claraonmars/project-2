@@ -11,6 +11,12 @@ TaskBuddy is an app targeted at people who might need companionship in completin
 * Get notified if a user wants to be their task buddy.
 
 
+## Get started
+
+`git clone
+node index.js`
+
+
 ## Technical Considerations
 * MVC, Express, React, hashing
 
