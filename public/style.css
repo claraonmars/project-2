@@ -16,9 +16,10 @@ body{
 }
 
 .borderline{
-	border:3px solid #EEBE48;
+	border:2px solid #D3D0CB;
 	border-radius: 10px;
 	padding:2vw;
+	background-color: white
 }
 
 .navbar{
@@ -415,6 +416,10 @@ padding: 0;
 	object-fit: contain;
 	margin: 0 auto;
 	padding:10px;
+}
+
+input.selected.outline_button{
+	background-color: #f5f5f5;
 }
 
 .text_input{

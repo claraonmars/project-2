@@ -167,6 +167,7 @@ function addReaction() {
             removeReaction();
 
             document.getElementById(postid).value = "Become Task Buddy";
+            document.getElementById(postid).classList.add('outline_button');
 
             //document.select_task.action = '/user';
 
@@ -240,6 +241,7 @@ function checkReactions() {
         if (responseObj.rowCount >= 1) {
             for (var i =0; i < responseObj.rows.length; i++){
                 document.getElementById(responseObj.rows[i].post_id.toString()).value = 'Selected';
+                document.getElementById(responseObj.rows[i].post_id.toString()).classList.remove('outline_button');
             }
             // let here = readCookie('userId');
 

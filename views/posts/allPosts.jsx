@@ -53,7 +53,7 @@ class AllPosts extends React.Component {
                     <div class="col-4">
                         <form method = 'POST' name='select_task' action = {actionURL}>
                             <input type='hidden' id ='postid' name='post_id' value ={post.post_id}/>
-                            <input type='submit' id= {post.post_id} class='selected' value='Become task buddy'/>
+                            <input type='submit' id= {post.post_id} class='selected outline_button' value='Become task buddy'/>
                         </form>
                     </div>
                 </div>

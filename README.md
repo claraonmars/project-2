@@ -45,4 +45,4 @@ Working app is hosted [here](https://taskbuddy-project2.herokuapp.com/)
 
 [ ] Click on location for directions.
 
-[ ] Optimize for mobile
+[ ] Optimize for mobile.

@@ -3,8 +3,12 @@ var DefaultLayout = require('./layout/default');
 
 class homePage extends React.Component {
   render() {
+    let logout='Login'
+    let logoutURL = '/login'
+
+
     return (
-        <DefaultLayout title="Login">
+        <DefaultLayout title="Login" login={logout} loginURL={logoutURL} profile={logout}>
 
         <div className="header_img">
             <div className="copy">
