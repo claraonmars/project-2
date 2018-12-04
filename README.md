@@ -14,7 +14,7 @@ TaskBuddy is an app targeted at people who might need companionship in completin
 ## Technical Considerations
 * MVC, Express, React, hashing
 
-* Javascript, Css
+* Javascript, CSS
 
 * Maps API, Distance matrix, Ajax
 
