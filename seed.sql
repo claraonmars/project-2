@@ -10,9 +10,8 @@ INSERT INTO posts (user_id, category, location) VALUES ( 3, 'categoryC', 'locati
 INSERT INTO posts (user_id, category, location) VALUES ( 4, 'categoryD', 'locationD');
 INSERT INTO posts (user_id, category, location) VALUES ( 5, 'categoryE', 'locationE');
 
-INSERT INTO users (firstname, lastname, email, username, password) VALUES ('John', 'Doe', 'john@email.com', 'johndoe', '123456');
-INSERT INTO users (firstname, lastname, email, username, password) VALUES ('Jane', 'Doe', 'jane@email.com', 'janedoe', '123456');
-INSERT INTO users (firstname, lastname, email, username, password) VALUES ('Clara', 'K', 'clara@email.com', 'clara', '123456');
-INSERT INTO users (firstname, lastname, email, username, password) VALUES ('Tom', 'Lee', 'tom@email.com', 'tom', '123456');
-INSERT INTO users (firstname, lastname, email, username, password) VALUES ('Harry', 'Lee', 'harry@email.com', 'harry', '123456');
-
+INSERT INTO users (firstname, lastname, email, username, password) VALUES ('firstnameA', 'lastnameA', 'emailA', 'userA', 'passwordA');
+INSERT INTO users (firstname, lastname, email, username, password) VALUES ('firstnameB', 'lastnameB', 'emailB', 'userB', 'passwordB');
+INSERT INTO users (firstname, lastname, email, username, password) VALUES ('firstnameC', 'lastnameC', 'emailC', 'userC', 'passwordC');
+INSERT INTO users (firstname, lastname, email, username, password) VALUES ('firstnameD', 'lastnameD', 'emailD', 'userD', 'passwordD');
+INSERT INTO users (firstname, lastname, email, username, password) VALUES ('firstnameE', 'lastnameE', 'emailE', 'userE', 'passwordE');
