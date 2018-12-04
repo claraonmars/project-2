@@ -26,7 +26,7 @@ class RegisterForm extends React.Component {
                   <input type='submit' value ='Register Me!' />
                   </form>
                   <form method='GET' action ='/login'>
-                  <input type='submit' value='Already have an account?'/>
+                  <input type='submit' value='Login'/>
                   </form>
               </div>
             </div>
