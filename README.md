@@ -23,12 +23,12 @@ TaskBuddy is an app targeted at people who might need companionship in completin
 Working app is hosted [here](https://taskbuddy-project2.herokuapp.com/)
 
 ## Unresolved issues
--[x] Chat with other users
+[x] Chat with other users
 
--[ ] Ajax calls work but redirect wrongly.
+[ ] Ajax calls work but redirect wrongly.
 
--[ ] Image uploader.
+[ ] Image uploader.
 
--[ ] Check for overbooking.
+[ ] Check for overbooking.
 
--[ ] Click on location for directions?
+[ ] Click on location for directions?
