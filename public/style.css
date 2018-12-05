@@ -367,7 +367,7 @@ cursor: pointer;
 	height:20px;
 	text-align: center;
 	color:white;
-	position:fixed;
+	position:absolute;
 	top:20px;
 	float:right;
 	right:160px;
